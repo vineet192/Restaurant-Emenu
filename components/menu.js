@@ -14,8 +14,8 @@ Structure of categories state:
     "title": "categoryTitle",
     "dishes": [
       {
-        "name" : "dishName",
-        "description": "dishDescription"
+        "dishName" : "name",
+        "dishDescription": "description"
         "price": "price"
       }
     ]
@@ -24,10 +24,10 @@ Structure of categories state:
 */
 
 export default function MenuForm(props) {
-  const [categories, setCategories] = useState({});
+  const [categories, setCategories] = useState({}); //structure shown above.
   const [isEditing, setIsEditing] = useState(true);
   const [numCategories, setNumCategories] = useState(0);
-  const [currentTabId, setCurrentTabId] = useState(-1);
+  const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
 
   const saveButton = (
     <FontAwesomeIcon icon={faSave} size="2x" color="blue"></FontAwesomeIcon>
@@ -59,6 +59,7 @@ export default function MenuForm(props) {
 
         <div className="flex flex-nowrap justify-center align-center p-2 overflow-x-hidden">
           <div className="flex overflow-x-auto">
+            {/* List of caegtegories as a horizontally scrollable list */}
             {Object.keys(categories).map((key) => {
               return (
                 <div className="p-2 m-2 flex" key={key} id={key}>
@@ -111,7 +112,7 @@ export default function MenuForm(props) {
               });
             }}></AddDishButton>
 
-          {/* List of Dishes */}
+          {/* List of Dishes. User can add dish name and description. */}
           {currentTabId > -1 ? (
             <div className="flex flex-col justify-center items-center">
               {categories[currentTabId].dishes.map((dish, index) => {
@@ -135,9 +136,11 @@ export default function MenuForm(props) {
                       categories[currentTabId].dishes[index].dishDescription
                     }
                     onDishDescriptionChange={(event) => {
+                      //update the dish description
                       let newCategories = { ...categories };
-                      newCategories[currentTabId].dishes[index].dishDescription =
-                        event.currentTarget.value;
+                      newCategories[currentTabId].dishes[
+                        index
+                      ].dishDescription = event.currentTarget.value;
                       setCategories(newCategories);
                     }}></DishCard>
                 );
