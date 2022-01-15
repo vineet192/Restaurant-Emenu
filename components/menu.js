@@ -147,7 +147,7 @@ export default function MenuForm(props) {
         ''
       )}
 
-      <div className="p-5 fixed bottom-0 flex justify-end w-full align-center">
+      <div className="px-3 fixed bottom-0 right-0 flex justify-end align-center">
         <button className="block p-2 m-3">
           {isEditing ? saveButton : editButton}
         </button>
