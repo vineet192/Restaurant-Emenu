@@ -82,14 +82,7 @@ export default function MenuForm(props) {
                     }}></input>
                   <RemoveCategoryButton
                     id={key}
-                    onClick={(event) => {
-                      let id = event.currentTarget.parentElement.id;
-                      let newCategories = { ...categories };
-                      setCurrentTabId(currentTabId - 1);
-                      delete newCategories[id];
-
-                      setCategories(newCategories);
-                    }}></RemoveCategoryButton>
+                    onClick={removeCategory}></RemoveCategoryButton>
                 </div>
               );
             })}
@@ -174,6 +167,15 @@ export default function MenuForm(props) {
     };
 
     newCategories[categoryId] = { title: '', dishes: [] };
+    setCategories(newCategories);
+  }
+
+  function removeCategory(event) {
+    let id = event.currentTarget.parentElement.id;
+    let newCategories = { ...categories };
+    setCurrentTabId(-1);
+    delete newCategories[id];
+
     setCategories(newCategories);
   }
 }
