@@ -54,7 +54,7 @@ export default function MenuForm(props) {
 
         <div className="flex flex-nowrap justify-center align-center p-2 overflow-x-hidden">
           <div className="flex overflow-x-auto">
-            {/* List of caegtegories as a horizontally scrollable list */}
+            {/* List of categories as a horizontally scrollable list */}
             {Object.keys(categories).map((key) => {
               return (
                 <div className="p-2 m-2 flex" key={key} id={key}>
@@ -96,6 +96,7 @@ export default function MenuForm(props) {
               addDish({
                 dishName: '',
                 dishDescription: '',
+                dishPrice: '0.0',
               });
             }}></AddDishButton>
 
@@ -129,7 +130,16 @@ export default function MenuForm(props) {
                         index
                       ].dishDescription = event.currentTarget.value;
                       setCategories(newCategories);
-                    }}></DishCard>
+                    }}
+                    onPriceChange={(event) => {
+                      let newCategories = { ...categories };
+                      newCategories[currentTabId].dishes[index].dishPrice =
+                        event.currentTarget.value;
+                      setCategories(newCategories);
+                    }}
+                    dishPrice={
+                      categories[currentTabId].dishes[index].dishPrice
+                    }></DishCard>
                 );
               })}
             </div>

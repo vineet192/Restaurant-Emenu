@@ -1,11 +1,19 @@
 export default function DishCard(props) {
   return (
     <div className="flex flex-col shadow-md hover:shadow-lg m-2 p-2 w-full">
-      <input
-        onChange={props.onDishNameChange}
-        value={props.dishName}
-        className="p-2 m-2 outline-none border-b-2 border-gray-500 text-3xl"
-        placeholder="Enter dish name"></input>
+      <div className="flex">
+        <input
+          onChange={props.onDishNameChange}
+          value={props.dishName}
+          className="p-2 m-2 outline-none border-b-2 border-gray-500 text-3xl"
+          placeholder="Enter dish name"></input>
+
+        <input
+          onChange={props.onPriceChange}
+          value={props.dishPrice}
+          className="p-2 m-2 outline-none border-b-2 border-gray-500 text-3xl"
+          placeholder="Enter price"></input>
+      </div>
       <textarea
         onChange={props.onDishDescriptionChange}
         value={props.dishDescription}
