@@ -1,6 +1,6 @@
 import { faEdit, faPlus, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { createRef, useEffect, useState } from 'react';
+import { createRef, useEffect, useRef, useState } from 'react';
 import AddCategoryButton from '../components/buttons/addCategoryButton';
 import AddDishButton from './buttons/addDishButton';
 import RemoveCategoryButton from './buttons/removeCategoryButton';
@@ -25,17 +25,9 @@ Structure of categories state:
 
 export default function MenuForm(props) {
   const [categories, setCategories] = useState({}); //structure shown above.
-  const [isEditing, setIsEditing] = useState(true);
   const [numCategories, setNumCategories] = useState(0);
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
-
-  const saveButton = (
-    <FontAwesomeIcon icon={faSave} size="2x" color="blue"></FontAwesomeIcon>
-  );
-
-  const editButton = (
-    <FontAwesomeIcon icon={faEdit} size="2x" color="blue"></FontAwesomeIcon>
-  );
+  const formRef = useRef();
 
   useEffect(() => {
     console.log(categories);
@@ -46,7 +38,10 @@ export default function MenuForm(props) {
   }, [currentTabId]);
 
   return (
-    <div className="w-full h-full">
+    <form
+      className="w-full h-full"
+      ref={formRef}
+      onSubmit={(event) => event.preventDefault()}>
       <div className="flex p-5 align-center w-full flex-col">
         <div className="flex justify-center">
           <AddCategoryButton
@@ -65,7 +60,6 @@ export default function MenuForm(props) {
                 <div className="p-2 m-2 flex" key={key} id={key}>
                   <input
                     className="m-2 p-2 flex-shrink-0 focus:outline-none shadow-md focus:shadow-lg cursor-pointer"
-                    disabled={!isEditing}
                     placeholder="Enter a category"
                     onFocus={(event) => {
                       let id = event.currentTarget.parentElement.id;
@@ -148,11 +142,14 @@ export default function MenuForm(props) {
       )}
 
       <div className="px-3 fixed bottom-0 right-0 flex justify-end align-center">
-        <button className="block p-2 m-3">
-          {isEditing ? saveButton : editButton}
+        <button className="block p-2 m-3" onClick={handleFormSave}>
+          <FontAwesomeIcon
+            icon={faSave}
+            size="2x"
+            color="blue"></FontAwesomeIcon>
         </button>
       </div>
-    </div>
+    </form>
   );
 
   function addDish(dish) {
@@ -177,5 +174,13 @@ export default function MenuForm(props) {
     delete newCategories[id];
 
     setCategories(newCategories);
+  }
+
+  function handleFormSave(event) {
+    //Write to db here
+  }
+
+  function handleEditClick(event) {
+    setIsEditing(true);
   }
 }
