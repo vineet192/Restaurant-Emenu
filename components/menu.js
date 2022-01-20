@@ -76,7 +76,7 @@ export default function MenuForm(props) {
                     }}></input>
                   <RemoveCategoryButton
                     id={key}
-                    onClick={removeCategory}></RemoveCategoryButton>
+                    onClick={handleRemoveCategoryClick}></RemoveCategoryButton>
                 </div>
               );
             })}
@@ -107,36 +107,14 @@ export default function MenuForm(props) {
                 return (
                   <DishCard
                     key={index}
-                    onRemove={(event) => {
-                      let newCategories = { ...categories };
-                      newCategories[currentTabId].dishes.splice(index, 1);
-                      setCategories(newCategories);
-                    }}
+                    onRemove={handleRemoveDishClick}
                     dishName={categories[currentTabId].dishes[index].dishName}
-                    onDishNameChange={(event) => {
-                      //update the dish name
-                      let newCategories = { ...categories };
-                      newCategories[currentTabId].dishes[index].dishName =
-                        event.currentTarget.value;
-                      setCategories(newCategories);
-                    }}
+                    onDishNameChange={handleDishNameChange}
                     dishDescription={
                       categories[currentTabId].dishes[index].dishDescription
                     }
-                    onDishDescriptionChange={(event) => {
-                      //update the dish description
-                      let newCategories = { ...categories };
-                      newCategories[currentTabId].dishes[
-                        index
-                      ].dishDescription = event.currentTarget.value;
-                      setCategories(newCategories);
-                    }}
-                    onPriceChange={(event) => {
-                      let newCategories = { ...categories };
-                      newCategories[currentTabId].dishes[index].dishPrice =
-                        event.currentTarget.value;
-                      setCategories(newCategories);
-                    }}
+                    onDishDescriptionChange={handleDishDescriptionChange}
+                    onPriceChange={handlePriceChange}
                     dishPrice={
                       categories[currentTabId].dishes[index].dishPrice
                     }></DishCard>
@@ -177,12 +155,41 @@ export default function MenuForm(props) {
     setCategories(newCategories);
   }
 
-  function removeCategory(event) {
+  function handleRemoveCategoryClick(event) {
     let id = event.currentTarget.parentElement.id;
     let newCategories = { ...categories };
     setCurrentTabId(-1);
     delete newCategories[id];
 
+    setCategories(newCategories);
+  }
+
+  function handleRemoveDishClick(event) {
+    let newCategories = { ...categories };
+    newCategories[currentTabId].dishes.splice(index, 1);
+    setCategories(newCategories);
+  }
+
+  function handlePriceChange(event) {
+    let newCategories = { ...categories };
+    newCategories[currentTabId].dishes[index].dishPrice =
+      event.currentTarget.value;
+    setCategories(newCategories);
+  }
+
+  function handleDishNameChange(event) {
+    //update the dish name
+    let newCategories = { ...categories };
+    newCategories[currentTabId].dishes[index].dishName =
+      event.currentTarget.value;
+    setCategories(newCategories);
+  }
+
+  function handleDishDescriptionChange(event) {
+    //update the dish description
+    let newCategories = { ...categories };
+    newCategories[currentTabId].dishes[index].dishDescription =
+      event.currentTarget.value;
     setCategories(newCategories);
   }
 
