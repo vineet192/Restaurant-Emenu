@@ -107,14 +107,18 @@ export default function MenuForm(props) {
                 return (
                   <DishCard
                     key={index}
-                    onRemove={handleRemoveDishClick}
+                    onRemove={(event) => handleRemoveDishClick(event, index)}
                     dishName={categories[currentTabId].dishes[index].dishName}
-                    onDishNameChange={handleDishNameChange}
+                    onDishNameChange={(event) =>
+                      handleDishNameChange(event, index)
+                    }
                     dishDescription={
                       categories[currentTabId].dishes[index].dishDescription
                     }
-                    onDishDescriptionChange={handleDishDescriptionChange}
-                    onPriceChange={handlePriceChange}
+                    onDishDescriptionChange={(event) =>
+                      handleDishDescriptionChange(event, index)
+                    }
+                    onPriceChange={(event) => handlePriceChange(event, index)}
                     dishPrice={
                       categories[currentTabId].dishes[index].dishPrice
                     }></DishCard>
@@ -164,20 +168,20 @@ export default function MenuForm(props) {
     setCategories(newCategories);
   }
 
-  function handleRemoveDishClick(event) {
+  function handleRemoveDishClick(event, index) {
     let newCategories = { ...categories };
     newCategories[currentTabId].dishes.splice(index, 1);
     setCategories(newCategories);
   }
 
-  function handlePriceChange(event) {
+  function handlePriceChange(event, index) {
     let newCategories = { ...categories };
     newCategories[currentTabId].dishes[index].dishPrice =
       event.currentTarget.value;
     setCategories(newCategories);
   }
 
-  function handleDishNameChange(event) {
+  function handleDishNameChange(event, index) {
     //update the dish name
     let newCategories = { ...categories };
     newCategories[currentTabId].dishes[index].dishName =
@@ -185,7 +189,7 @@ export default function MenuForm(props) {
     setCategories(newCategories);
   }
 
-  function handleDishDescriptionChange(event) {
+  function handleDishDescriptionChange(event, index) {
     //update the dish description
     let newCategories = { ...categories };
     newCategories[currentTabId].dishes[index].dishDescription =
