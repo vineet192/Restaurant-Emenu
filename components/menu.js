@@ -39,7 +39,7 @@ export default function MenuForm(props) {
 
   return (
     <form
-      className="w-full h-full"
+      className="w-full h-full pt-20"
       ref={formRef}
       onSubmit={(event) => event.preventDefault()}>
       <div className="flex p-5 align-center w-full flex-col">
