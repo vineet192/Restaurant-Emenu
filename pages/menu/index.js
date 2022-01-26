@@ -1,11 +1,8 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
-import NavBar from '../components/nav';
-import MenuForm from '../components/menu';
 import { useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { useRouter } from 'next/router';
+import NavBar from '../../components/nav';
+import MenuForm from '../../components/menu';
 
 export default function Home() {
   const { currentUser } = useAuth();
@@ -18,7 +15,7 @@ export default function Home() {
   return (
     <div>
       <NavBar></NavBar>
-      <h1>Main Screen</h1>
+      <MenuForm></MenuForm>
     </div>
   );
 }
