@@ -10,7 +10,6 @@ import { useAuth } from '../contexts/AuthContext';
 export default function NavBar() {
   const { logout } = useAuth();
   const dropDownRef = useRef();
-  const navItems = ['About', 'Profile', 'Logout'];
   return (
     <nav>
       {/* Standard Desktop Nav */}
@@ -19,13 +18,17 @@ export default function NavBar() {
           E-MENU
         </a>
         <ul className="flex justify-between items-center">
-          {navItems.map((item, id) => (
-            <li
-              key={id}
-              className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
-              {item}
-            </li>
-          ))}
+          <li className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
+            About
+          </li>
+          <li className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
+            <a href="/menu">My E-menu</a>
+          </li>
+          <li
+            onClick={onLogoutClick}
+            className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
+            Logout
+          </li>
         </ul>
       </div>
 
@@ -40,13 +43,17 @@ export default function NavBar() {
       {/* Dropdown nav items */}
       <div ref={dropDownRef} className="p-2 w-full hidden transition md:hidden">
         <ul className="w-full">
-          {navItems.map((item, id) => (
-            <li
-              key={id}
-              className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition">
-              {item}
-            </li>
-          ))}
+          <li className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition cursor-pointer">
+            About
+          </li>
+          <li className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition cursor-pointer">
+            <a href="/menu">My E-menu</a>
+          </li>
+          <li
+            onClick={onLogoutClick}
+            className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition cursor-pointer">
+            Logout
+          </li>
         </ul>
       </div>
     </nav>
