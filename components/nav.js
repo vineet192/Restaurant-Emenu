@@ -11,7 +11,7 @@ export default function NavBar() {
   const { logout } = useAuth();
   const dropDownRef = useRef();
   return (
-    <nav>
+    <nav className='fixed w-full'>
       {/* Standard Desktop Nav */}
       <div className="hidden p-5 justify-between items-center md:flex">
         <a href="/" className="text-3xl font-extrabold">
