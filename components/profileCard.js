@@ -1,6 +1,23 @@
 import Router from 'next/router';
+import { useState } from 'react';
 
 export default function ProfileCard(props) {
+  const [eMenus, setEmenus] = useState([]);
+
+  //TODO: connect this component to the user backend, and get the user's corresponding menus.
+
+  useState(() => {
+    //Get all of user's menus here. Hardcoding for now.
+    let newEmenus = [...eMenus];
+    newEmenus = [
+      'http://my-menu-1.com',
+      'http://my-menu-2.com',
+      'http://my-menu-3.com',
+      'http://my-menu-4.com',
+    ];
+    setEmenus(newEmenus);
+  }, []);
+
   return (
     <div className="h-full flex-auto flex justify-center items-center">
       <div className="m-2 p-5 shadow-lg flex flex-col items-center">
@@ -9,27 +26,22 @@ export default function ProfileCard(props) {
         </h1>
         <ul>
           <li className="mx-2 my-4">
-            <h1 className="text-2xl">You can find your E-menu here</h1>
+            <h1 className="text-2xl">You can find your E-menus here</h1>
           </li>
-          <li className="mx-2 my-4">
-            <div className="border border-gray-400 p-2 flex justify-center items-center">
-              <a href="http://www.example.com">http://www.example.com</a>{' '}
-              <button
-                className="bg-blue-500 text-white rounded p-2 mx-2"
-                onClick={emenuRedirect}>
-                Customize
-              </button>
-            </div>
-          </li>
-          <hr />
-          <li className="mx-2 my-4">
-            <label htmlFor="public" className="mx-2">
-              Make your E-menu public?
-            </label>
-            <input
-              type={'checkbox'}
-              className="text-blue-500"
-              id="public"></input>
+          <li className="mx-2 my-4 overflow-y-auto max-h-80">
+            {eMenus.map((menuUrl) => (
+              <div className="border my-3 border-gray-400 p-2 flex justify-center items-center">
+                <a href={menuUrl}>{menuUrl}</a>{' '}
+                <div className='flex justify-between items-center'>
+                <button
+                  className="bg-blue-500 text-white rounded p-2 mx-2"
+                  onClick={emenuRedirect}>
+                  Customize
+                </button>
+                <input type={'checkbox'} placeholder='MAke public?'></input>
+                </div>
+              </div>
+            ))}
           </li>
         </ul>
       </div>
