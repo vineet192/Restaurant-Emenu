@@ -8,12 +8,12 @@ export default function Home() {
   const { currentUser } = useAuth();
   const router = useRouter();
   useEffect(() => {
-    if (!currentUser) {
+    if (currentUser === null) {
       router.push('/login');
     }
   });
   return (
-    <div className='h-screen'>
+    <div className="h-screen">
       <NavBar></NavBar>
       <ProfileCard></ProfileCard>
     </div>
