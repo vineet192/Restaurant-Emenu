@@ -21,9 +21,6 @@ export default function NavBar() {
           <li className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
             About
           </li>
-          <li className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
-            <a href="/menu">My E-menu</a>
-          </li>
           <li
             onClick={onLogoutClick}
             className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
@@ -45,9 +42,6 @@ export default function NavBar() {
         <ul className="w-full">
           <li className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition cursor-pointer">
             About
-          </li>
-          <li className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition cursor-pointer">
-            <a href="/menu">My E-menu</a>
           </li>
           <li
             onClick={onLogoutClick}
