@@ -1,5 +1,3 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -36,7 +34,7 @@ export default function signup(props) {
           <span className="self-center m-2">
             Already have an account?{' '}
             <a href="/login" className="underline text-blue-500">
-              Signup
+              Login
             </a>
           </span>
         </div>
