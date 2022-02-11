@@ -10,19 +10,11 @@ export default function ProfileCard(props) {
   const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME;
 
   useEffect(async () => {
-    if (currentUser === null) {
-      await router.push('/login');
-      return;
-    }
     let userMenus = await getUserMenuObj(currentUser.uid);
     let newMenus = [...eMenus];
     newMenus = userMenus;
     setEmenus(newMenus);
   }, []);
-
-  if (currentUser === null) {
-    return null
-  }
 
   return (
     <div className="h-full flex-auto flex justify-center items-center">
@@ -40,13 +32,7 @@ export default function ProfileCard(props) {
                 className="border my-3 border-gray-400 p-2 flex justify-center items-center"
                 key={index}>
                 <a
-                  href={
-                    SERVER_URL +
-                    '/menu/' +
-                    currentUser.uid +
-                    '?menuID=' +
-                    menu._id
-                  }
+                  href={HOST_URL + '/menu/' + menu._id}
                   className="underline m-2">
                   Preview
                 </a>{' '}

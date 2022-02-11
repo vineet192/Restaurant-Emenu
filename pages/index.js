@@ -1,4 +1,3 @@
-import NavBar from '../components/nav';
 import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
@@ -12,9 +11,13 @@ export default function Home() {
       router.push('/login');
     }
   });
+
+  if (currentUser === null) {
+    return null;
+  }
+
   return (
     <div className="h-screen">
-      <NavBar></NavBar>
       <ProfileCard></ProfileCard>
     </div>
   );
