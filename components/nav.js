@@ -8,10 +8,15 @@ import { useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function NavBar() {
-  const { logout } = useAuth();
+  const { logout, currentUser } = useAuth();
   const dropDownRef = useRef();
+
+  if (currentUser === null) {
+    return null;
+  }
+
   return (
-    <nav className='fixed w-full'>
+    <nav className="fixed w-full top-0">
       {/* Standard Desktop Nav */}
       <div className="hidden p-5 justify-between items-center md:flex">
         <a href="/" className="text-3xl font-extrabold">
