@@ -16,7 +16,6 @@ export default function Home() {
   });
   return (
     <div>
-      <NavBar></NavBar>
       <MenuForm></MenuForm>
     </div>
   );
