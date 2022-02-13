@@ -16,7 +16,7 @@ export default function NavBar() {
   }
 
   return (
-    <nav className="fixed w-full top-0">
+    <nav className="relative w-full top-0 z-50">
       {/* Standard Desktop Nav */}
       <div className="hidden p-5 justify-between items-center md:flex">
         <a href="/" className="text-3xl font-extrabold">
