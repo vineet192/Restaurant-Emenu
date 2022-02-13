@@ -52,7 +52,7 @@ export default function ProfileCard(props) {
   );
 
   function emenuRedirect(menuID) {
-    Router.push('/menu-config/' + menuID);
+    router.push('/menu-config/' + menuID);
   }
 
   async function getUserMenuObj(uid) {
