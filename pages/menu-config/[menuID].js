@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../contexts/AuthContext';
-import NavBar from '../../components/nav';
-import MenuForm from '../../components/menu';
+import MenuForm from '../../components/menuForm';
 
 export default function Home() {
   const { currentUser } = useAuth();
