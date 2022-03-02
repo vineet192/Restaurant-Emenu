@@ -29,14 +29,6 @@ export default function MenuForm(props) {
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
   const formRef = useRef();
 
-  useEffect(() => {
-    console.log(categories);
-  }, [categories]);
-
-  useEffect(() => {
-    console.log(currentTabId);
-  }, [currentTabId]);
-
   return (
     <form
       className="w-full h-full pt-20"
