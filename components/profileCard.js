@@ -34,7 +34,7 @@ export default function ProfileCard(props) {
           <li className="mx-2 my-4 overflow-y-auto max-h-80">
             {eMenus.map((menu, index) => (
               <div
-                className="border my-3 border-gray-400 p-2 flex justify-center items-center"
+                className="border my-3 border-gray-400 py-2 px-4 flex justify-between items-center"
                 key={index}>
                 <a
                   href={HOST_URL + '/menu/' + menu._id}
@@ -51,7 +51,7 @@ export default function ProfileCard(props) {
               </div>
             ))}
             <div
-              className="border my-3 border-gray-400 p-2 hidden justify-between items-center"
+              className="border my-3 border-gray-400 p-2 hidden justify-between items-center flex-wrap"
               ref={addMenuForm}>
               <input
                 type="text"
@@ -63,7 +63,9 @@ export default function ProfileCard(props) {
                   onClick={saveMenuForUser}>
                   Save
                 </button>
-                <button className="mx-2 p-2 border border-gray-400">
+                <button
+                  className="mx-2 p-2 border border-gray-400"
+                  onClick={cancelNewMenu}>
                   Cancel
                 </button>
               </div>
@@ -73,7 +75,7 @@ export default function ProfileCard(props) {
             <button
               onClick={showMenuForm}
               ref={addMenuButton}
-              className="outline-none">
+              className="outline-none block">
               <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
             </button>
           </li>
@@ -124,6 +126,10 @@ export default function ProfileCard(props) {
     newMenus = userMenus;
     setEmenus(newMenus);
 
+    hideMenuForm();
+  }
+
+  function cancelNewMenu() {
     hideMenuForm();
   }
 
