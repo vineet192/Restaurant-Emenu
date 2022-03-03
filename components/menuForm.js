@@ -5,7 +5,7 @@ import AddCategoryButton from '../components/buttons/addCategoryButton';
 import AddDishButton from './buttons/addDishButton';
 import RemoveCategoryButton from './buttons/removeCategoryButton';
 import DishCard from './dishCard';
-
+import { useAuth } from '../contexts/AuthContext';
 /*
 Structure of categories state:
 
@@ -28,6 +28,29 @@ export default function MenuForm(props) {
   const [numCategories, setNumCategories] = useState(0);
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
   const formRef = useRef();
+  const { currentUser } = useAuth();
+  const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
+  useEffect(async () => {
+    //get current menu obj from user
+    let menu;
+    try {
+      let data = await fetch(
+        SERVER_URL + '/menu/' + currentUser.uid + '?menuID=' + props.menuID
+      );
+      menu = (await data.json()).menu;
+    } catch (err) {
+      console.log(err);
+      alert('Something went wrong fetching your details');
+      return;
+    }
+
+    let newCategories = { ...categories };
+    menu.categories.forEach((element, index) => {
+      newCategories[index] = element;
+    });
+
+    setCategories(newCategories);
+  }, []);
 
   return (
     <form
@@ -53,6 +76,7 @@ export default function MenuForm(props) {
                   <input
                     className="m-2 p-2 flex-shrink-0 focus:outline-none shadow-md focus:shadow-lg cursor-pointer"
                     placeholder="Enter a category"
+                    value={categories[key].title}
                     onFocus={(event) => {
                       let id = event.currentTarget.parentElement.id;
                       setCurrentTabId(id);
@@ -191,6 +215,7 @@ export default function MenuForm(props) {
 
   function handleFormSave(event) {
     //Write to db here
+    console.log(categories);
   }
 
   function handleEditClick(event) {
