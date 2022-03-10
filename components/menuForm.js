@@ -102,7 +102,7 @@ export default function MenuForm(props) {
 
       {currentTabId != -1 ? (
         <div className="p-2 m-2 flex flex-col w-full overflow-y-auto">
-          <h1 className="justify-self-start text-6xl text-red-700 font-extrabold">
+          <h1 className="justify-self-start text-6xl text-red-700 font-extrabold p-2">
             {currentTabId > -1 ? categories[currentTabId].title : ''}
           </h1>
           <hr className="text-red-700"></hr>
