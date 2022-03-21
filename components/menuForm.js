@@ -215,7 +215,21 @@ export default function MenuForm(props) {
 
   function handleFormSave(event) {
     //Write to db here
-    console.log(categories);
+    console.log(Object.values(categories));
+
+    let raw = JSON.stringify({ categories: Object.values(categories) });
+
+    let requestOptions = {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: raw,
+      redirect: 'follow',
+    };
+
+    fetch(
+      SERVER_URL + '/menu/' + currentUser.uid + '/' + props.menuID,
+      requestOptions
+    ).catch((error) => console.log('error', error));
   }
 
   function handleEditClick(event) {
