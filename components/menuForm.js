@@ -231,8 +231,4 @@ export default function MenuForm(props) {
       requestOptions
     ).catch((error) => console.log('error', error));
   }
-
-  function handleEditClick(event) {
-    setIsEditing(true);
-  }
 }
