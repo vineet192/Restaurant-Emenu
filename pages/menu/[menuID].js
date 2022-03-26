@@ -1,5 +1,7 @@
+import { faBackspace } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function () {
@@ -9,6 +11,8 @@ export default function () {
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
 
   const [menuCard, setMenuCard] = useState({});
+
+  const categoriesPopup = useRef();
 
   useEffect(() => {
     if (currentUser === null) {
@@ -23,6 +27,7 @@ export default function () {
       `${SERVER_URL}/menu/${currentUser.uid}?menuID=${menuID}`
     );
     let data = await res.json();
+    console.log(data.menu);
     setMenuCard((prevState) => data.menu);
   }, []);
 
@@ -31,16 +36,38 @@ export default function () {
   }
 
   return (
-    <div className=" h-screen">
-      {menuCard.categories.map((category, index) => (
-        <div className="w-full flex justify-center p-2 m-2" key={index}>
-          <h1>{category.title}</h1>
-        </div>
-      ))}
-
-      <button className="absolute bottom-0 right-1/2 m-5 p-2 flex bg-blue-500 rounded w-fit">
+    <div>
+      <button
+        className="absolute bottom-0 right-0 m-5 p-2 flex bg-blue-500 text-white rounded w-fit"
+        onClick={handleOpenCategories}>
         <h1>Menu</h1>
       </button>
+
+      <div
+        className="hidden flex-col items-center bg-blue-500 rounded-lg text-white fixed bottom-0 right-0 p-2 m-5"
+        ref={categoriesPopup}>
+        <h1>Categories</h1>
+        <ul className="my-5">
+          {menuCard.categories.map((category, index) => (
+            <li key={index}>
+              <h1>{category.title}</h1>
+            </li>
+          ))}
+        </ul>
+        <button
+          className="absolute bottom-0 right-0 p-1"
+          onClick={handleCloseCategories}>
+          <FontAwesomeIcon icon={faBackspace}></FontAwesomeIcon>
+        </button>
+      </div>
     </div>
   );
+
+  function handleCloseCategories(event) {
+    categoriesPopup.current.classList.replace('flex', 'hidden');
+  }
+
+  function handleOpenCategories(event) {
+    categoriesPopup.current.classList.replace('hidden', 'flex');
+  }
 }
