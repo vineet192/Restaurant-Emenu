@@ -35,7 +35,7 @@ export default function MenuForm(props) {
     let menu;
     try {
       let data = await fetch(
-        SERVER_URL + '/menu/' + currentUser.uid + '?menuID=' + props.menuID
+        SERVER_URL + `/menu/?menuID=${props.menuID}`
       );
       menu = (await data.json()).menu;
     } catch (err) {
@@ -217,17 +217,22 @@ export default function MenuForm(props) {
     //Write to db here
     console.log(Object.values(categories));
 
-    let raw = JSON.stringify({ categories: Object.values(categories) });
+    let menuEdits = { categories: Object.values(categories) };
+
+    let payload = {
+      "menuID": props.menuID,
+      "newMenu": menuEdits
+    }
 
     let requestOptions = {
       method: 'PATCH',
       headers: { 'content-type': 'application/json' },
-      body: raw,
+      body: JSON.stringify(payload),
       redirect: 'follow',
     };
 
     fetch(
-      SERVER_URL + '/menu/' + currentUser.uid + '/' + props.menuID,
+      SERVER_URL + '/menu/',
       requestOptions
     ).catch((error) => console.log('error', error));
   }

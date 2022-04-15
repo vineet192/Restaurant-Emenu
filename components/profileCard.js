@@ -105,8 +105,9 @@ export default function ProfileCard(props) {
     let payload = {
       menuName: menuName,
       currency: currency,
+      uid: currentUser.uid,
     };
-    let data = await fetch(SERVER_URL + '/menu/' + currentUser.uid, {
+    let data = await fetch(SERVER_URL + '/menu/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +135,7 @@ export default function ProfileCard(props) {
   }
 
   async function getUserMenuObj(uid) {
-    let menus = (await (await fetch(SERVER_URL + '/menu/' + uid)).json()).menus;
+    let menus = (await (await fetch(SERVER_URL + `/menu/?uid=${uid}`)).json()).menus;
     return menus;
   }
 }
