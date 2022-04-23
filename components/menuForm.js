@@ -34,9 +34,7 @@ export default function MenuForm(props) {
     //get current menu obj from user
     let menu;
     try {
-      let data = await fetch(
-        SERVER_URL + `/menu/?menuID=${props.menuID}`
-      );
+      let data = await fetch(SERVER_URL + `/menu/?menuID=${props.menuID}`);
       menu = (await data.json()).menu;
     } catch (err) {
       console.log(err);
@@ -213,16 +211,16 @@ export default function MenuForm(props) {
     setCategories(newCategories);
   }
 
-  function handleFormSave(event) {
+  async function handleFormSave(event) {
     //Write to db here
     console.log(Object.values(categories));
 
     let menuEdits = { categories: Object.values(categories) };
 
     let payload = {
-      "menuID": props.menuID,
-      "newMenu": menuEdits
-    }
+      menuID: props.menuID,
+      newMenu: menuEdits,
+    };
 
     let requestOptions = {
       method: 'PATCH',
@@ -231,9 +229,17 @@ export default function MenuForm(props) {
       redirect: 'follow',
     };
 
-    fetch(
-      SERVER_URL + '/menu/',
-      requestOptions
-    ).catch((error) => console.log('error', error));
+    let res;
+    try {
+      res = await fetch(SERVER_URL + '/menu/', requestOptions);
+    } catch (err) {
+      console.log(err)
+    }
+
+    if(res.status != 204){
+      //Insert error popup here
+    }
+
+    //Insert success popup here
   }
 }

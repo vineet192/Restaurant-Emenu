@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import Toast from './toast';
 
 export default function ProfileCard(props) {
   const [eMenus, setEmenus] = useState([]);
@@ -107,7 +108,8 @@ export default function ProfileCard(props) {
       currency: currency,
       uid: currentUser.uid,
     };
-    let data = await fetch(SERVER_URL + '/menu/', {
+
+    let res = await fetch(SERVER_URL + '/menu/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -115,10 +117,8 @@ export default function ProfileCard(props) {
       body: JSON.stringify(payload),
     });
 
-    let res = await data.json();
-
-    if (!res.success) {
-      console.log(res.msg);
+    if (res.status != 201) {
+      //Insert error popup here
       return;
     }
 
@@ -128,6 +128,8 @@ export default function ProfileCard(props) {
     setEmenus(newMenus);
 
     hideMenuForm();
+
+    //Insert success popup here
   }
 
   function cancelNewMenu() {
