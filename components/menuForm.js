@@ -29,7 +29,9 @@ export default function MenuForm(props) {
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
   const formRef = useRef();
   const { currentUser } = useAuth();
+  const categoriesDiv = useRef();
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
+
   useEffect(async () => {
     //get current menu obj from user
     let menu;
@@ -48,8 +50,18 @@ export default function MenuForm(props) {
     });
 
     setCategories(newCategories);
-    setNumCategories(menu.categories.length)
+    setNumCategories(menu.categories.length);
   }, []);
+
+  useEffect(() => {
+    let lastCategory = categoriesDiv.current.lastElementChild;
+
+    if (lastCategory) {
+      lastCategory.scrollIntoView({
+        behaviour: 'smooth',
+      });
+    }
+  }, [categories]);
 
   return (
     <form
@@ -67,7 +79,7 @@ export default function MenuForm(props) {
         </div>
 
         <div className="flex flex-nowrap justify-center align-center p-2 overflow-x-hidden">
-          <div className="flex overflow-x-auto">
+          <div className="flex overflow-x-auto" ref={categoriesDiv}>
             {/* List of categories as a horizontally scrollable list */}
             {Object.keys(categories).map((key) => {
               return (
