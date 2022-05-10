@@ -48,6 +48,7 @@ export default function MenuForm(props) {
     });
 
     setCategories(newCategories);
+    setNumCategories(menu.categories.length)
   }, []);
 
   return (
@@ -233,10 +234,10 @@ export default function MenuForm(props) {
     try {
       res = await fetch(SERVER_URL + '/menu/', requestOptions);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
 
-    if(res.status != 204){
+    if (res.status != 204) {
       //Insert error popup here
     }
 
