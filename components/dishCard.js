@@ -1,17 +1,17 @@
 export default function DishCard(props) {
   return (
-    <div className="flex flex-col shadow-md hover:shadow-lg m-2 p-2 w-full">
+    <div className="flex flex-col shadow-md hover:shadow-lg m-2 p-2 w-4/5">
       <div className="flex">
         <input
           onChange={props.onDishNameChange}
           value={props.dishName}
-          className="p-2 m-2 outline-none border-b-2 border-gray-500 text-3xl"
+          className="p-2 m-2 outline-none border-b-2 border-gray-500 text-3xl w-4/5"
           placeholder="Enter dish name"></input>
 
         <input
           onChange={props.onPriceChange}
           value={props.dishPrice}
-          className="p-2 m-2 outline-none border-b-2 border-gray-500 text-3xl"
+          className="p-2 m-2 outline-none border-b-2 border-gray-500 text-3xl w-1/5"
           placeholder="Enter price"></input>
       </div>
       <textarea
@@ -21,12 +21,7 @@ export default function DishCard(props) {
         placeholder="Give it a description"></textarea>
       <div className="flex w-full justify-center">
         <button
-          className="p-2 m-2 border-gray-500 border"
-          onClick={props.onSave}>
-          Save
-        </button>
-        <button
-          className="p-2 m-2 border-gray-500 border"
+          className="p-2 m-2 border-gray-500 border bg-red-500 rounded-lg text-white"
           onClick={props.onRemove}>
           Remove
         </button>
