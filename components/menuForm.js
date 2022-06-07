@@ -27,6 +27,7 @@ export default function MenuForm(props) {
   const [categories, setCategories] = useState({}); //structure shown above.
   const [numCategories, setNumCategories] = useState(0);
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
+  const [menuName, setMenuName] = useState('');
   const formRef = useRef();
   const { currentUser } = useAuth();
   const categoriesDiv = useRef();
@@ -43,6 +44,8 @@ export default function MenuForm(props) {
       alert('Something went wrong fetching your details');
       return;
     }
+
+    setMenuName(menu.name);
 
     let newCategories = { ...categories };
     menu.categories.forEach((element, index) => {
@@ -68,6 +71,13 @@ export default function MenuForm(props) {
       className="w-full h-full pt-20"
       ref={formRef}
       onSubmit={(event) => event.preventDefault()}>
+      <div className="flex justify-center items-center">
+        <input
+          type="text"
+          className="text-5xl my-2 font-bold text-blue-500 text-center"
+          value={menuName}></input>
+      </div>
+
       <div className="flex p-5 align-center w-full flex-col">
         <div className="flex justify-center">
           <AddCategoryButton
@@ -161,11 +171,11 @@ export default function MenuForm(props) {
       )}
 
       <div className="px-3 fixed bottom-0 right-0 flex justify-end align-center">
-        <button className="block p-2 m-3" onClick={handleFormSave}>
-          <FontAwesomeIcon
-            icon={faSave}
-            size="2x"
-            color="blue"></FontAwesomeIcon>
+        <button
+          className="flex p-2 m-3 justify-center items-center rounded-lg border-2 border-blue-500 bg-white text-blue-500 hover:bg-blue-500 hover:text-white transition ease-in-out"
+          onClick={handleFormSave}>
+          <h1 className="mx-2 text-2xl font-bold">Save Changes</h1>
+          <FontAwesomeIcon icon={faSave} size="2x"></FontAwesomeIcon>
         </button>
       </div>
     </form>
