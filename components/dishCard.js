@@ -1,21 +1,21 @@
 export default function DishCard(props) {
   return (
     <div className="flex flex-col justify-between border-2 rounded-3xl border-gray-400 hover:shadow-lg m-2 py-2 px-8 w-4/5">
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col items-start">
         <label className="text-2xl">Dish Name : </label>
         <input
           onChange={props.onDishNameChange}
           value={props.dishName}
-          className="p-2 m-2 outline-none border-2 text-3xl focus:border-blue-500 transition"
+          className="p-2 m-2 outline-none border-2 text-3xl focus:border-blue-500 transition rounded-3xl"
           placeholder="Enter dish name"></input>
       </div>
 
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col items-start">
         <label className="text-2xl">Price : </label>
         <input
           onChange={props.onPriceChange}
           value={props.dishPrice}
-          className="p-2 m-2 outline-none border-2 border-gray-500 text-2xl"
+          className="p-2 m-2 outline-none border-2 focus:border-blue-500 text-2xl transition ease-in-out rounded-3xl appearance-none"
           placeholder="Enter price"></input>
       </div>
 
