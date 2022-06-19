@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import Toast from './toast';
 
 export default function ProfileCard(props) {
   const [eMenus, setEmenus] = useState([]);
