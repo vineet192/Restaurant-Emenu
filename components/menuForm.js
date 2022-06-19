@@ -31,6 +31,7 @@ export default function MenuForm(props) {
   const formRef = useRef();
   const { currentUser } = useAuth();
   const categoriesDiv = useRef();
+  const saveFormButtonRef = useRef();
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
 
   useEffect(async () => {
@@ -172,6 +173,7 @@ export default function MenuForm(props) {
 
       <div className="px-3 fixed bottom-0 right-0 flex justify-end align-center">
         <button
+          ref={saveFormButtonRef}
           className="flex p-2 m-3 justify-center items-center rounded-lg border-2 border-blue-500 bg-white text-blue-500 hover:bg-blue-500 hover:text-white transition ease-in-out"
           onClick={handleFormSave}>
           <h1 className="mx-2 text-2xl font-bold">Save Changes</h1>
@@ -236,7 +238,6 @@ export default function MenuForm(props) {
 
   async function handleFormSave(event) {
     //Write to db here
-    console.log(Object.values(categories));
 
     let menuEdits = { categories: Object.values(categories) };
 
@@ -254,7 +255,9 @@ export default function MenuForm(props) {
 
     let res;
     try {
+      saveFormButtonRef.current.classList.toggle('animate-pulse');
       res = await fetch(SERVER_URL + '/menu/', requestOptions);
+      saveFormButtonRef.current.classList.toggle('animate-pulse');
     } catch (err) {
       console.log(err);
     }
