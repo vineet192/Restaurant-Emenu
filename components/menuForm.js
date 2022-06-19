@@ -5,7 +5,10 @@ import AddCategoryButton from '../components/buttons/addCategoryButton';
 import AddDishButton from './buttons/addDishButton';
 import RemoveCategoryButton from './buttons/removeCategoryButton';
 import DishCard from './dishCard';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../contexts/AuthContext';
+import { errorToast, successToast } from '../static/toastConfig';
 /*
 Structure of categories state:
 
@@ -180,6 +183,7 @@ export default function MenuForm(props) {
           <FontAwesomeIcon icon={faSave} size="2x"></FontAwesomeIcon>
         </button>
       </div>
+      <ToastContainer />
     </form>
   );
 
@@ -259,13 +263,12 @@ export default function MenuForm(props) {
       res = await fetch(SERVER_URL + '/menu/', requestOptions);
       saveFormButtonRef.current.classList.toggle('animate-pulse');
     } catch (err) {
-      console.log(err);
+      errorToast('Error saving menu');
     }
 
     if (res.status != 204) {
-      //Insert error popup here
+      errorToast('Error saving menu');
     }
-
-    //Insert success popup here
+    successToast('menu saved successfully!');
   }
 }
