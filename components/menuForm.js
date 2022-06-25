@@ -152,7 +152,7 @@ export default function MenuForm(props) {
 
           <AddDishButton
             onClick={(event) => {
-              addDish({
+              handleAddDish({
                 dishName: '',
                 dishDescription: '',
                 dishPrice: '0.0',
@@ -205,7 +205,7 @@ export default function MenuForm(props) {
     </form>
   );
 
-  function addDish(dish) {
+  function handleAddDish(dish) {
     let newCategories = { ...categories };
     newCategories[currentTabId].dishes.push(dish);
     setCategories(newCategories);
