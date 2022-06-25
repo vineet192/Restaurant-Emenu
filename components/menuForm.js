@@ -35,6 +35,7 @@ export default function MenuForm(props) {
   const { currentUser } = useAuth();
   const categoriesDiv = useRef();
   const saveFormButtonRef = useRef();
+  const editMenuNameFieldRef = useRef();
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
 
   useEffect(async () => {
@@ -76,10 +77,27 @@ export default function MenuForm(props) {
       ref={formRef}
       onSubmit={(event) => event.preventDefault()}>
       <div className="flex justify-center items-center">
-        <input
-          type="text"
-          className="text-5xl my-2 font-bold text-blue-500 text-center"
-          value={menuName}></input>
+        <div className="flex">
+          <input
+            ref={editMenuNameFieldRef}
+            type="text"
+            size={5}
+            disabled={true}
+            className="text-5xl m-2 font-bold text-blue-500 text-center w-auto focus:outline-none disabled:bg-white"
+            value={menuName}
+            //OnBlur is used to capture onFocusOut
+            onBlur={(event) => {
+              event.currentTarget.disabled = true;
+            }}
+            onChange={handleMenuNameChange}></input>
+          <button onClick={toggleMenuNameEdit}>
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="2x"
+              className="text-blue-500"
+            />
+          </button>
+        </div>
       </div>
 
       <div className="flex p-5 align-center w-full flex-col">
@@ -240,10 +258,19 @@ export default function MenuForm(props) {
     setCategories(newCategories);
   }
 
+  function handleMenuNameChange(event) {
+    setMenuName(event.currentTarget.value);
+  }
+
+  function toggleMenuNameEdit(event) {
+    editMenuNameFieldRef.current.disabled = false;
+    editMenuNameFieldRef.current.focus();
+  }
+
   async function handleFormSave(event) {
     //Write to db here
 
-    let menuEdits = { categories: Object.values(categories) };
+    let menuEdits = { categories: Object.values(categories), name: menuName };
 
     let payload = {
       menuID: props.menuID,
