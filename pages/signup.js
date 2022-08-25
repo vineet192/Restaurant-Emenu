@@ -1,11 +1,13 @@
 import { useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 export default function signup(props) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
   const { signup } = useAuth();
+  const router = useRouter()
 
   return (
     <div className="h-screen flex items-center justify-center">
@@ -29,7 +31,7 @@ export default function signup(props) {
             type="password"
             ref={confirmPasswordRef}></input>
           <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10">
-            Login
+            Signup
           </button>
           <span className="self-center m-2">
             Already have an account?{' '}
@@ -56,6 +58,7 @@ export default function signup(props) {
 
     try {
       await signup(email, password);
+      router.push('/')
     } catch (err) {
       console.log(err);
     }
