@@ -1,7 +1,8 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
+import { Icons } from 'react-toastify';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function ProfileCard(props) {
@@ -38,7 +39,7 @@ export default function ProfileCard(props) {
                 key={index}>
                 <a
                   href={HOST_URL + '/menu/' + menu._id}
-                  className="underline m-2">
+                  className="underline m-2 font-bold">
                   {menu.name}
                 </a>{' '}
                 <div className="flex justify-between items-center">
@@ -46,6 +47,16 @@ export default function ProfileCard(props) {
                     className="bg-blue-500 text-white rounded p-2 mx-2"
                     onClick={() => emenuRedirect(menu._id)}>
                     Customize
+                  </button>
+                  <button
+                    className="text-black border border-black rounded p-2 mx-2"
+                    onClick={() => { printQRCode(menu._id) }}>
+                    QR Code
+                  </button>
+                  <button
+                    className="outline-none block p-2 mx-2"
+                    onClick={() => { deleteMenu(menu._id) }}>
+                    <FontAwesomeIcon icon={faTrash} color='red'></FontAwesomeIcon>
                   </button>
                 </div>
               </div>
@@ -55,7 +66,7 @@ export default function ProfileCard(props) {
               ref={addMenuForm}>
               <input
                 type="text"
-                placeholder="Enter a name for your new menu"
+                placeholder="Name"
                 className="p-2 outline-none border-b border-gray-400"></input>
               <div className="flex justify-between p-2">
                 <button
@@ -138,5 +149,42 @@ export default function ProfileCard(props) {
   async function getUserMenuObj(uid) {
     let menus = (await (await fetch(SERVER_URL + `/menu/?uid=${uid}`)).json()).menus;
     return menus;
+  }
+
+  function printQRCode(id) {
+
+    let url = HOST_URL + '/menu/' + id
+
+    console.log(`Print QR code for ${url}`)
+
+  }
+
+  async function deleteMenu(id) {
+    let url = SERVER_URL + `/menu/`
+    let res;
+
+    let payload = {
+      id: id
+    }
+
+    try {
+      res = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (err) {
+      console.log(err)
+    }
+
+    if(res.status != 200){
+      console.error("Error deleting menu")
+      return
+    }
+
+    console.log("Deleted Successfully")
+    router.reload(window.location.pathname)
   }
 }

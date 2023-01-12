@@ -207,7 +207,7 @@ export default function MenuForm(props) {
 
   function handleAddDish(dish) {
     let newCategories = { ...categories };
-    newCategories[currentTabId].dishes.push(dish);
+    newCategories[currentTabId].dishes.unshift(dish);
     setCategories(newCategories);
   }
 
