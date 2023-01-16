@@ -41,10 +41,13 @@ export default function () {
               {category.dishes.map((dish, dishIndex) => (
                 <div className='flex flex-col'>
                   <div className="flex flex-row justify-between items-center my-2" key={dishIndex}>
-                    <h1 className="text-2xl font-bold">{dish.dishName}</h1>
-                    <span className='min-w-fit my-5'>{dish.dishPrice + " " + menuCard.currency} </span>
+                    <div className='flex flex-col'>
+                      <h1 className="text-2xl font-bold">{dish.dishName}</h1>
+                      <span>{dish.dishDescription}</span>
+                    </div>
+                    <span className='min-w-fit ml-5'>{dish.dishPrice + " " + menuCard.currency} </span>
                   </div>
-                  <hr/>
+                  <hr />
                 </div>
               ))}
             </div>
