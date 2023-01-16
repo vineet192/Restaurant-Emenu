@@ -42,7 +42,7 @@ export default function () {
                 <div className='flex flex-col'>
                   <div className="flex flex-row justify-between items-center my-2" key={dishIndex}>
                     <h1 className="text-2xl font-bold">{dish.dishName}</h1>
-                    <span>{dish.dishPrice + " " + menuCard.currency} </span>
+                    <span className='min-w-fit my-5'>{dish.dishPrice + " " + menuCard.currency} </span>
                   </div>
                   <hr/>
                 </div>
