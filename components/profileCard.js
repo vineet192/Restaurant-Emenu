@@ -1,5 +1,6 @@
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Icons } from 'react-toastify';
@@ -48,11 +49,17 @@ export default function ProfileCard(props) {
                     onClick={() => emenuRedirect(menu._id)}>
                     Customize
                   </button>
-                  <button
-                    className="text-black border border-black rounded p-2 mx-2"
-                    onClick={() => { printQRCode(menu._id) }}>
-                    QR Code
-                  </button>
+                  <Link href={{
+                    pathname: '/qr',
+                    query: { id: menu._id }
+                  }}>
+                    <a>
+                      <button
+                        className="text-black border border-black rounded p-2 mx-2">
+                        QR Code
+                      </button>
+                    </a>
+                  </Link>
                   <button
                     className="outline-none block p-2 mx-2"
                     onClick={() => { deleteMenu(menu._id) }}>
@@ -179,7 +186,7 @@ export default function ProfileCard(props) {
       console.log(err)
     }
 
-    if(res.status != 200){
+    if (res.status != 200) {
       console.error("Error deleting menu")
       return
     }
