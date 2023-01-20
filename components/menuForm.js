@@ -117,7 +117,7 @@ export default function MenuForm(props) {
               return (
                 <div className="p-2 m-2 flex" key={key} id={key}>
                   <input
-                    className="m-2 p-2 flex-shrink-0 focus:outline-none shadow-md focus:shadow-lg cursor-pointer"
+                    className="m-2 p-2 flex-shrink-0 focus:outline-none shadow-md focus:shadow-lg cursor-pointer focus:border-2 focus:border-blue-500"
                     placeholder="Enter a category"
                     value={categories[key].title}
                     onFocus={(event) => {
