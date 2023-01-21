@@ -1,6 +1,6 @@
 import { faEdit, faPlus, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { createRef, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AddCategoryButton from '../components/buttons/addCategoryButton';
 import AddDishButton from './buttons/addDishButton';
 import RemoveCategoryButton from './buttons/removeCategoryButton';
@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../contexts/AuthContext';
 import { errorToast, successToast } from '../static/toastConfig';
+import { useRouter } from 'next/router';
 /*
 Structure of categories state:
 
@@ -37,6 +38,8 @@ export default function MenuForm(props) {
   const saveFormButtonRef = useRef();
   const editMenuNameFieldRef = useRef();
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
+  const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME;
+  const router = useRouter()
 
   useEffect(async () => {
     //get current menu obj from user
@@ -195,10 +198,21 @@ export default function MenuForm(props) {
       <div className="px-3 fixed bottom-0 right-0 flex justify-end align-center">
         <button
           ref={saveFormButtonRef}
-          className="flex p-2 m-3 justify-center items-center rounded-lg border-2 border-blue-500 bg-white text-blue-500 hover:bg-blue-500 hover:text-white transition ease-in-out"
+
+          className="flex p-2 m-3 justify-center items-center rounded-lg border-2 
+          border-blue-500 bg-white text-blue-500 hover:bg-blue-500 
+          hover:text-white transition ease-in-out"
+
           onClick={handleFormSave}>
           <h1 className="mx-2 text-2xl font-bold">Save Changes</h1>
           <FontAwesomeIcon icon={faSave} size="2x"></FontAwesomeIcon>
+        </button>
+        <button className='flex p-2 m-3 justify-center items-center rounded-lg border-2 
+          border-blue-500 bg-white text-blue-500 hover:bg-blue-500 
+          hover:text-white transition ease-in-out'
+          onClick={() => {router.push(HOST_URL + '/menu/' + props.menuID)}}>
+          <h1 className="mx-2 text-2xl font-bold">Preview</h1>
+          {/* <FontAwesomeIcon icon={faSave} size="2x"></FontAwesomeIcon> */}
         </button>
       </div>
       <ToastContainer />
