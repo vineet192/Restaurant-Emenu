@@ -8,7 +8,7 @@ export default function qr(props) {
     const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
     const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME;
     const url = SERVER_URL + '/menu/' + router.query.id
-    
+
     useEffect(() => {
         print_qr()
     })
@@ -16,14 +16,17 @@ export default function qr(props) {
     return (
         <div>
             <div id="content-div">
-                <div style={{
-                    display: "flex", flexDirection: "column", justifyItems: "center",
-                    width: "100%", marginTop: "50%", alignItems: "center"
-                }}>
+                <div
+                    style={{
+                        display: "flex", flexDirection: "column", justifyItems: "center",
+                        width: "100%", marginTop: "50%", alignItems: "center"
+                    }}
+                >
                     <QRCode value={url}></QRCode>
+                    <span style={{margin:"15px"}}>{url}</span>
                 </div>
             </div>
-            <iframe id="qr-frame" className="h-0 w-full">
+            <iframe id="qr-frame" className="w-0 h-0">
             </iframe>
         </div>
     )
