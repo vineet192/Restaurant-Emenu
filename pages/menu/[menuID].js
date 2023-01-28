@@ -30,6 +30,7 @@ export default function () {
           <div
             className="flex flex-col my-10 mx-2"
             key={categoryIndex}
+            id={categoryIndex}
             onClick={toggleDishes}>
             <div className="rounded-md p-2 shadow-md cursor pointer">
               <h1 className="text-4xl text-blue-600 font-extrabold">
@@ -41,12 +42,10 @@ export default function () {
               {category.dishes.map((dish, dishIndex) => (
                 <div className='flex flex-col'>
                   <div className="flex flex-row justify-between items-center my-2" key={dishIndex}>
-                    <div className='flex flex-col'>
-                      <h1 className="text-2xl font-bold">{dish.dishName}</h1>
-                      <span>{dish.dishDescription}</span>
-                    </div>
-                    <span className='min-w-fit ml-5'>{dish.dishPrice + " " + menuCard.currency} </span>
+                    <h1 className="text-2xl font-bold">{dish.dishName}</h1>
+                    <span className='min-w-fit ml-5 italic underline'>{dish.dishPrice + " " + menuCard.currency} </span>
                   </div>
+                  <span>{dish.dishDescription}</span>
                   <hr />
                 </div>
               ))}
@@ -62,7 +61,11 @@ export default function () {
         <ul className="my-5">
           {menuCard.categories.map((category, index) => (
             <li key={index} className="my-2">
-              <h1 className="text-2xl">{category.title}</h1>
+              <h1
+                className="text-2xl cursor-pointer"
+                onClick={() => { scrollToCategoryAndOpen(index) }}>
+                {category.title}
+              </h1>
             </li>
           ))}
         </ul>
@@ -92,5 +95,11 @@ export default function () {
   function toggleDishes(event) {
     let dishList = event.currentTarget.querySelector('#dish-list');
     dishList.classList.toggle('hidden');
+  }
+
+  function scrollToCategoryAndOpen(index) {
+    let categoryDiv = document.getElementById(index)
+    categoryDiv.scrollIntoView();
+    categoryDiv.click()
   }
 }
