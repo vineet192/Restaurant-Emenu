@@ -93,8 +93,8 @@ export default function ProfileCard(props) {
             <button
               onClick={showMenuForm}
               ref={addMenuButton}
-              className="outline-none block">
-              <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+              className="outline-none flex justify-between items-center border border-gray-500 p-2">
+                Add a menu
             </button>
           </li>
         </ul>
