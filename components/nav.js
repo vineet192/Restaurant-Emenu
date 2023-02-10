@@ -4,6 +4,7 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 import { useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -24,7 +25,9 @@ export default function NavBar() {
         </a>
         <ul className="flex justify-between items-center">
           <li className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
-            About
+            <Link href="/about">
+              About
+            </Link>
           </li>
           <li
             onClick={onLogoutClick}
