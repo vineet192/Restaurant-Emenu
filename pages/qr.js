@@ -7,7 +7,7 @@ export default function qr(props) {
     const router = useRouter();
     const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
     const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME;
-    const url = SERVER_URL + '/menu/' + router.query.id
+    const url = HOST_URL + '/menu/' + router.query.id
 
     useEffect(() => {
         print_qr()
