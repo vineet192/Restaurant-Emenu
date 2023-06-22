@@ -1,4 +1,17 @@
+import { useRouter } from 'next/router';
+import { useAuth } from '../contexts/AuthContext';
+
 export default function about(props) {
+
+    const { currentUser } = useAuth();
+    const router = useRouter()
+    const HOST = process.env.NEXT_PUBLIC_HOSTNAME
+
+    if (!currentUser) {
+        router.push(HOST)
+        return (<></>)
+    }
+
     return (
         <div>
 
