@@ -1,11 +1,15 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
+import 'react-toastify/dist/ReactToastify.css';
+import { errorToast } from '../static/toastConfig';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function signup(props) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
   const { signup } = useAuth();
   const router = useRouter()
 
@@ -30,9 +34,17 @@ export default function signup(props) {
             placeholder="Confirm Password"
             type="password"
             ref={confirmPasswordRef}></input>
-          <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10">
-            Signup
-          </button>
+
+          {!isLoading &&
+            <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10">
+              Signup
+            </button>}
+
+          {isLoading &&
+            <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10 animate-pulse" disabled>
+              Signing up
+            </button>}
+
           <span className="self-center m-2">
             Already have an account?{' '}
             <a href="/login" className="underline text-blue-500">
@@ -41,6 +53,7 @@ export default function signup(props) {
           </span>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 
@@ -57,10 +70,14 @@ export default function signup(props) {
     }
 
     try {
+      setIsLoading(true)
       await signup(email, password);
+      setIsLoading(false)
       router.push('/')
     } catch (err) {
       console.log(err);
+      setIsLoading(false)
+      errorToast("Error signing up")
     }
   }
 }

@@ -1,6 +1,9 @@
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import 'react-toastify/dist/ReactToastify.css';
+import { errorToast } from '../static/toastConfig';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function login(props) {
   const emailRef = useRef();
@@ -26,9 +29,16 @@ export default function login(props) {
             placeholder="Password"
             type="password"
             ref={passwordRef}></input>
-          <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10">
+
+          {!isLoading && <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10 flex">
             Login
-          </button>
+          </button>}
+
+          {isLoading && <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10 flex animate-pulse" disabled>
+            Logging in
+          </button>}
+
+
           <span className="self-center m-2">
             Don't have an account?{' '}
             <a href="/signup" className="underline text-blue-500">
@@ -37,6 +47,7 @@ export default function login(props) {
           </span>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 
@@ -54,6 +65,8 @@ export default function login(props) {
       router.push('/')
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
+      errorToast("Error logging in")
     }
   }
 }
