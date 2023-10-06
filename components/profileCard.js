@@ -34,7 +34,7 @@ export default function ProfileCard(props) {
             <h1 className="text-2xl">You can find your E-menus here</h1>
           </li>
           <li className="mx-2 my-4 overflow-y-auto max-h-80">
-            {eMenus.map((menu, index) => (
+            {eMenus != undefined && eMenus.map((menu, index) => (
               <div
                 className="border my-3 border-gray-400 py-2 px-4 flex justify-between items-center"
                 key={index}>
