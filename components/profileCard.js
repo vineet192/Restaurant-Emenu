@@ -23,10 +23,6 @@ export default function ProfileCard(props) {
     setEmenus(newMenus);
   }, []);
 
-  //Guard till the emenu state is set
-  if(eMenus === undefined){
-    return <div></div>
-  }
 
   return (
     <div className="h-full flex-auto flex justify-center items-center">
