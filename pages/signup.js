@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,8 +10,14 @@ export default function signup(props) {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
-  const { signup } = useAuth();
+  const { signup, currentUser } = useAuth();
   const router = useRouter()
+
+  useEffect(() => {
+    if (currentUser != null) {
+      router.push('/')
+    }
+  }, [currentUser])
 
   return (
     <div className="h-screen flex items-center justify-center">
@@ -73,7 +79,6 @@ export default function signup(props) {
       setIsLoading(true)
       await signup(email, password);
       setIsLoading(false)
-      router.push('/')
     } catch (err) {
       console.log(err);
       setIsLoading(false)
