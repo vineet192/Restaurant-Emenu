@@ -5,16 +5,28 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 export default function NavBar() {
   const { logout, currentUser } = useAuth();
   const dropDownRef = useRef();
+  const router = useRouter()
+  const [show, setShow] = useState(true)
 
-  if (currentUser === null) {
-    return null;
-  }
+  useEffect(() => {
+    console.log(window.location.pathname)
+
+    if (currentUser === null || window.location.pathname.match(/^\/menu\/[a-zA-Z0-9]+\/*$/)) {
+      setShow(false)
+      return
+    }
+
+    setShow(true)
+  }, [router.asPath])
+
+  if (!show) return null
 
   return (
     <nav className="relative w-full top-0 z-50">
