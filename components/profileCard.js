@@ -30,7 +30,7 @@ export default function ProfileCard(props) {
           DASHBOARD
         </h1>
         <ul>
-          <li className="mx-2 my-4">
+          <li className="mx-2 my-4 w-full text-center">
             <h1 className="text-2xl">You can find your E-menus here</h1>
           </li>
           <li className="mx-2 my-4 overflow-y-auto max-h-80">
