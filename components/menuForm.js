@@ -67,11 +67,11 @@ export default function MenuForm(props) {
   useEffect(() => {
     let lastCategory = categoriesDiv.current.lastElementChild;
 
-    if (lastCategory) {
-      lastCategory.scrollIntoView({
-        behaviour: 'smooth',
-      });
-    }
+    // if (lastCategory) {
+    //   lastCategory.scrollIntoView({
+    //     behaviour: 'smooth',
+    //   });
+    // }
   }, [categories]);
 
   return (
@@ -147,7 +147,7 @@ export default function MenuForm(props) {
       </div>
 
       {currentTabId != -1 ? (
-        <div className="p-2 m-2 flex flex-col w-full overflow-y-auto">
+        <div className="p-2 m-2 flex flex-col overflow-y-auto">
           <h1 className="justify-self-start text-6xl text-red-700 font-extrabold p-2">
             {currentTabId > -1 ? categories[currentTabId].title : ''}
           </h1>
@@ -221,7 +221,7 @@ export default function MenuForm(props) {
 
   function handleAddDish(dish) {
     let newCategories = { ...categories };
-    newCategories[currentTabId].dishes.unshift(dish);
+    newCategories[currentTabId].dishes.push(dish);
     setCategories(newCategories);
   }
 

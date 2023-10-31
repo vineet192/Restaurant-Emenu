@@ -1,21 +1,33 @@
+import { useEffect, useRef } from "react";
+
 export default function DishCard(props) {
+
+  const cardRef = useRef()
+
+  useEffect(() => {
+    cardRef.current.scrollIntoView({ behavior: 'smooth' })
+    setTimeout(() => { cardRef.current.style.opacity = 100; }, 150)
+  }, [])
+
   return (
-    <div className="flex flex-col justify-between border-2 rounded-3xl border-gray-400 hover:shadow-lg m-2 py-2 px-8 w-4/5">
-      <div className="flex flex-col items-start">
-        <label className="text-2xl mx-2 mt-2">Dish Name : </label>
+    <div
+      ref={cardRef}
+      className="flex flex-col border-2 rounded-3xl border-gray-400 hover:shadow-lg m-2 py-2 px-8 w-4/5 transition-opacity opacity-0">
+      <div className="flex flex-row items-center">
+        <label className="text-2xl m-2">Dish Name</label>
         <input
           onChange={props.onDishNameChange}
           value={props.dishName}
-          className="p-2 m-2 outline-none border-2 text-3xl focus:border-blue-500 transition rounded-xl"
+          className="p-2 m-2 text-2xl bg-transparent border-b-2 border-b-transparent outline-none focus:border-b-blue-500 transition"
           placeholder="Enter dish name"></input>
       </div>
 
-      <div className="flex flex-col items-start">
-        <label className="text-2xl mx-2 mt-2">Price : </label>
+      <div className="flex flex-row items-center">
+        <label className="text-2xl m-2">Price</label>
         <input
           onChange={props.onPriceChange}
           value={props.dishPrice}
-          className="p-2 m-2 outline-none border-2 focus:border-blue-500 text-2xl transition ease-in-out rounded-xl appearance-none"
+          className="p-2 m-2 text-2xl bg-transparent border-b-2 border-b-transparent outline-none focus:border-b-blue-500 transition"
           placeholder="Enter price"></input>
       </div>
 
@@ -23,7 +35,7 @@ export default function DishCard(props) {
       <textarea
         onChange={props.onDishDescriptionChange}
         value={props.dishDescription}
-        className="m-2 p-2 outline-none border-2 focus:border-blue-500 resize-none rounded-xl"
+        className="m-2 p-2 outline-none border-2 focus:border-blue-500 resize-none rounded-xl transition"
         placeholder="Give it a description"></textarea>
       <div className="flex flex-col w-full justify-center items-center">
         <button
