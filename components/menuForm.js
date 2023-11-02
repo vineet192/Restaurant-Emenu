@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../contexts/AuthContext';
 import { errorToast, successToast } from '../static/toastConfig';
 import { useRouter } from 'next/router';
+import PreviewButton from './buttons/previewButton';
+import CategoryNameInput from './input/categoryNameInput';
 /*
 Structure of categories state:
 
@@ -64,16 +66,6 @@ export default function MenuForm(props) {
     setNumCategories(menu.categories.length);
   }, []);
 
-  useEffect(() => {
-    let lastCategory = categoriesDiv.current.lastElementChild;
-
-    // if (lastCategory) {
-    //   lastCategory.scrollIntoView({
-    //     behaviour: 'smooth',
-    //   });
-    // }
-  }, [categories]);
-
   return (
     <form
       className="w-full h-full pt-20"
@@ -86,7 +78,7 @@ export default function MenuForm(props) {
             type="text"
             size={5}
             disabled={true}
-            className="text-5xl m-2 font-bold text-blue-500 text-center w-auto focus:outline-none disabled:bg-white"
+            className="text-5xl m-2 font-bold text-blue-500 border-b-2 border-transparent transition bg-transparent text-center w-auto focus:border-blue-500"
             value={menuName}
             //OnBlur is used to capture onFocusOut
             onBlur={(event) => {
@@ -119,23 +111,10 @@ export default function MenuForm(props) {
             {Object.keys(categories).map((key) => {
               return (
                 <div className="p-2 m-2 flex" key={key} id={key}>
-                  <input
-                    className="m-2 p-2 flex-shrink-0 outline-none border-transparent border-2 shadow-md focus:shadow-lg cursor-pointer focus:border-blue-500 transition"
-                    placeholder="Enter a category"
-                    value={categories[key].title}
-                    onFocus={(event) => {
-                      let id = event.currentTarget.parentElement.id;
-                      setCurrentTabId(id);
-                    }}
-                    onChange={(event) => {
-                      let category = event.currentTarget.value;
-                      let id = event.currentTarget.parentElement.id;
-
-                      let newCategories = { ...categories };
-                      newCategories[id].title = category;
-
-                      setCategories(newCategories);
-                    }}></input>
+                  <CategoryNameInput
+                    onChange={handleCategoryNameChange}
+                    onFocus={handleCategorySelect}
+                    value={categories[key].title}></CategoryNameInput>
                   <RemoveCategoryButton
                     id={key}
                     onClick={handleRemoveCategoryClick}></RemoveCategoryButton>
@@ -207,13 +186,7 @@ export default function MenuForm(props) {
           <h1 className="mx-2 text-2xl font-bold">Save Changes</h1>
           <FontAwesomeIcon icon={faSave} size="2x"></FontAwesomeIcon>
         </button>
-        <button className='flex p-2 m-3 justify-center items-center rounded-lg border-2 
-          border-blue-500 bg-white text-blue-500 hover:bg-blue-500 
-          hover:text-white transition ease-in-out'
-          onClick={() => {router.push(HOST_URL + '/menu/' + props.menuID)}}>
-          <h1 className="mx-2 text-2xl font-bold">Preview</h1>
-          {/* <FontAwesomeIcon icon={faSave} size="2x"></FontAwesomeIcon> */}
-        </button>
+        <PreviewButton preview_url={HOST_URL + '/menu/' + props.menuID}></PreviewButton>
       </div>
       <ToastContainer />
     </form>
@@ -274,6 +247,21 @@ export default function MenuForm(props) {
 
   function handleMenuNameChange(event) {
     setMenuName(event.currentTarget.value);
+  }
+
+  function handleCategoryNameChange(event) {
+    let category = event.currentTarget.value;
+    let id = event.currentTarget.parentElement.id;
+
+    let newCategories = { ...categories };
+    newCategories[id].title = category;
+
+    setCategories(newCategories);
+  }
+
+  function handleCategorySelect(event) {
+    let id = event.currentTarget.parentElement.id;
+    setCurrentTabId(id);
   }
 
   function toggleMenuNameEdit(event) {
