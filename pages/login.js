@@ -60,9 +60,10 @@ export default function login(props) {
     try {
       setIsLoading(true);
       await login(email, password);
-      setIsLoading(false);
 
-      router.push('/')
+      router.push('/').then(() => {
+        setIsLoading(false)
+      })
     } catch (err) {
       console.log(err);
       setIsLoading(false);
