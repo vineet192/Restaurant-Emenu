@@ -23,6 +23,7 @@ export default function ProfileCard(props) {
     setEmenus(newMenus);
   }, []);
 
+
   return (
     <div className="h-full flex-auto flex justify-center items-center">
       <div className="m-2 p-5 shadow-lg flex flex-col items-center">
@@ -68,7 +69,7 @@ export default function ProfileCard(props) {
                 </div>
               </div>
             ))}
-            {eMenus.length == 0 && <div className='w-full text-center'><span className='text-sm'>Start by adding a Menu below</span></div>}
+            {eMenus!= undefined && eMenus.length == 0 && <div className='w-full text-center'><span className='text-sm'>Start by adding a Menu below</span></div>}
             <div
               className="border my-3 border-gray-400 p-2 hidden justify-between items-center flex-wrap"
               ref={addMenuForm}>

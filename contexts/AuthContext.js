@@ -20,10 +20,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
-      (user) => {
+      async (user) => {
         if (user) {
           console.log('user signed in!', user);
-          initializeUser(user.uid);
+          await initializeUser(user.uid);
         } else {
           console.log('user signed out!');
         }
@@ -58,23 +58,30 @@ export function AuthProvider({ children }) {
     logout,
   };
 
-  function initializeUser(uid) {
+  async function initializeUser(uid) {
     const data = { userID: uid };
+    let res;
 
-    fetch(SERVER_URL + '/user/init', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    try {
+      res = await fetch(SERVER_URL + '/user/init', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    } catch (e) {
+      console.log("Error while initializing user", e)
+    }
+
+    if (!res.ok) {
+      console.log("An error occured while initializing user", res.status, await res.json())
+      return;
+    }
+
+    res = await res.json()
+
+    console.log(res)
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { errorToast } from '../static/toastConfig';
@@ -9,8 +9,14 @@ export default function login(props) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, currentUser } = useAuth();
   const router = useRouter();
+
+  useEffect(()=>{
+    if(currentUser!= null){
+      router.push('/')
+    }
+  }, [currentUser])
 
   return (
     <div className="h-screen flex items-center justify-center">
