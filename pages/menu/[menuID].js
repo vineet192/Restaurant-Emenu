@@ -1,4 +1,4 @@
-import { faBackspace } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp, faBackspace } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useRef } from 'react';
@@ -16,6 +16,10 @@ export default function () {
     let res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}`);
     let data = await res.json();
     console.log(data.menu);
+
+    data.menu.categories.map(category => {
+      return { ...category, expanded: false }
+    })
     setMenuCard((prevState) => data.menu);
   }, []);
 
@@ -26,21 +30,29 @@ export default function () {
   return (
     <div>
       <div className="w-4/5 m-5 p-2 flex flex-col">
+        <div className='w-2/3 h-0.5 bg-black mb-2 mx-auto' />
+        <h1 className="text-6xl mx-auto font-['']">{menuCard.name}</h1>
+        <div className='w-2/3 h-0.5 bg-black mt-2 mx-auto' />
         {menuCard.categories.map((category, categoryIndex) => (
           <div
             className="flex flex-col my-10 mx-2"
             key={categoryIndex}
             id={categoryIndex}
-            onClick={toggleDishes}>
-            <div className="rounded-md p-2 shadow-md cursor pointer">
+            onClick={e => toggleExpansion(e, categoryIndex)}>
+            <div className="p-2 cursor-pointer border-b border-blue-500 flex justify-between">
               <h1 className="text-4xl text-blue-600 font-extrabold">
                 {category.title}
               </h1>
+              
+              {category.expanded?
+              <FontAwesomeIcon id="icon" icon={faAngleUp} size='2x' className='mt-auto text-blue-500' />:
+              <FontAwesomeIcon id="icon" icon={faAngleDown} size='2x' className='mt-auto text-blue-500' />}
+              
             </div>
             <hr />
             <div className="hidden p-2" id="dish-list">
               {category.dishes.map((dish, dishIndex) => (
-                <div className='flex flex-col'>
+                <div className='flex flex-col' key={dishIndex}>
                   <div className="flex flex-row justify-between items-center my-2" key={dishIndex}>
                     <h1 className="text-2xl font-bold">{dish.dishName}</h1>
                     <span className='min-w-fit ml-5 italic underline'>{dish.dishPrice + " " + menuCard.currency} </span>
@@ -92,9 +104,13 @@ export default function () {
     categoriesPopup.current.classList.replace('hidden', 'flex');
   }
 
-  function toggleDishes(event) {
+  function toggleExpansion(event, categoryIndex) {
     let dishList = event.currentTarget.querySelector('#dish-list');
-    dishList.classList.toggle('hidden');
+    let isHidden = dishList.classList.toggle('hidden');
+
+    let newMenuCard = {...menuCard}
+    newMenuCard.categories[categoryIndex].expanded = !isHidden
+    setMenuCard(newMenuCard)
   }
 
   function scrollToCategoryAndOpen(index) {
