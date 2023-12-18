@@ -10,15 +10,11 @@ export default function Home() {
     if (currentUser === null) {
       router.push('/login');
     }
-  });
-
-  if (currentUser === null) {
-    return null;
-  }
+  }, []);
 
   return (
     <div className="h-screen">
-      <ProfileCard></ProfileCard>
+      {currentUser && <ProfileCard></ProfileCard>}
     </div>
   );
 }

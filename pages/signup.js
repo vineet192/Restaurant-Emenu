@@ -78,7 +78,11 @@ export default function signup(props) {
     try {
       setIsLoading(true)
       await signup(email, password);
-      setIsLoading(false)
+      router.push('/').then(() => setIsLoading(false))
+        .catch(err => {
+          setIsLoading(false)
+          errorToast("Error signing up")
+        })
     } catch (err) {
       console.log(err);
       setIsLoading(false)
