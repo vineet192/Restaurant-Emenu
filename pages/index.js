@@ -10,7 +10,7 @@ export default function Home() {
     if (currentUser === null) {
       router.push('/login');
     }
-  }, []);
+  });
 
   return (
     <div className="h-screen">
