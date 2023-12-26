@@ -12,8 +12,22 @@ export default function login(props) {
   const { login, currentUser } = useAuth();
   const router = useRouter();
 
-  useEffect(()=>{
-    if(currentUser!= null){
+  useEffect(() => {
+    if (!router.isReady) {
+      return
+    }
+
+    if (!router.query.err) {
+      return
+    }
+
+    if(router.query.err === "unverified"){
+      errorToast("Please verify your email")
+    }
+  }, [])
+
+  useEffect(() => {
+    if (currentUser != null && currentUser.emailVerified) {
       router.push('/')
     }
   }, [currentUser])
