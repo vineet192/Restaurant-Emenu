@@ -9,6 +9,11 @@ export default function Home() {
   useEffect(() => {
     if (currentUser === null) {
       router.push('/login');
+      return
+    }
+    
+    if (!currentUser.emailVerified) {
+      router.push({ pathname: '/login', query: { err: "unverified" } })
     }
   });
 

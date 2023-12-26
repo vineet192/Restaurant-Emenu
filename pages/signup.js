@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
 import { errorToast } from '../static/toastConfig';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 export default function signup(props) {
   const emailRef = useRef();
@@ -16,7 +16,7 @@ export default function signup(props) {
   const router = useRouter()
 
   useEffect(() => {
-    if (currentUser != null) {
+    if (currentUser != null && currentUser.emailVerified) {
       router.push('/')
     }
   }, [currentUser])
@@ -96,8 +96,14 @@ export default function signup(props) {
 
     try {
       setIsLoading(true)
-      await signup(email, password, firstName, lastName );
-      router.push('/').then(() => setIsLoading(false))
+      await signup(email, password, firstName, lastName);
+      router
+        .push(
+          {
+            pathname: '/codeVerify', query: { email: email }
+          }
+        )
+        .then(() => setIsLoading(false))
         .catch(err => {
           setIsLoading(false)
           errorToast("Error signing up")

@@ -6,7 +6,8 @@ import {
   reauthenticateWithCredential,
   deleteUser,
   signOut,
-  EmailAuthCredential,
+  sendEmailVerification,
+  applyActionCode,
   EmailAuthProvider,
 } from 'firebase/auth';
 import React, { useContext, useEffect, useState } from 'react';
@@ -48,8 +49,9 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  function signup(email, password, firstName, lastName) {
+  async function signup(email, password, firstName, lastName) {
     return createUserWithEmailAndPassword(auth, email, password).then(cred => {
+      sendEmailVerification(cred.user, { url: process.env.NEXT_PUBLIC_HOSTNAME, handleCodeInApp: true })
       updateProfile(cred.user, { displayName: `${firstName} ${lastName}` })
     });
   }
@@ -57,7 +59,7 @@ export function AuthProvider({ children }) {
   async function deleteAccount(email, password) {
     const credential = EmailAuthProvider.credential(email, password)
     const reauthCred = await reauthenticateWithCredential(currentUser, credential)
-    deleteUser(reauthCred)
+    deleteUser(currentUser)
   }
 
   function logout() {
