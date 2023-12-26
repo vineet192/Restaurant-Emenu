@@ -27,11 +27,11 @@ export default function login(props) {
             LOGIN
           </h1>
           <input
-            className="m-4 p-1 outline-none border-gray-500 border-b"
+            className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
             placeholder="Email"
             ref={emailRef}></input>
           <input
-            className="m-4 p-1 outline-none border-gray-500 border-b"
+            className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
             placeholder="Password"
             type="password"
             ref={passwordRef}></input>
