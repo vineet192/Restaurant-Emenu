@@ -8,6 +8,8 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function signup(props) {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const firstNameRef = useRef()
+  const lastNameRef = useRef()
   const confirmPasswordRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const { signup, currentUser } = useAuth();
@@ -26,19 +28,34 @@ export default function signup(props) {
           <h1 className="self-center m-2 font-extrabold text-3xl mb-16">
             SIGN UP
           </h1>
+          <div className='flex'>
+            <input
+              className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
+              placeholder="First name"
+              required
+              ref={firstNameRef}></input>
+            <input
+              className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
+              placeholder="Last name"
+              required
+              ref={lastNameRef}></input>
+          </div>
           <input
-            className="m-4 p-1 outline-none border-gray-500 border-b"
+            className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
             placeholder="Email"
+            required
             ref={emailRef}></input>
           <input
-            className="m-4 p-2 outline-none border-gray-500 border-b"
+            className="m-4 p-2 outline-none bg-transparent focus:border-blue-500 transition border-b"
             placeholder="Password"
             type="password"
+            required
             ref={passwordRef}></input>
           <input
-            className="m-4 p-2 outline-none border-gray-500 border-b"
+            className="m-4 p-2 outline-none bg-transparent focus:border-blue-500 transition border-b"
             placeholder="Confirm Password"
             type="password"
+            required
             ref={confirmPasswordRef}></input>
 
           {!isLoading &&
@@ -69,6 +86,8 @@ export default function signup(props) {
     let email = emailRef.current.value;
     let password = passwordRef.current.value;
     let confirmPassword = confirmPasswordRef.current.value;
+    let firstName = firstNameRef.current.value
+    let lastName = lastNameRef.current.value
 
     if (password != confirmPassword) {
       console.log('confirm pwd error');
@@ -77,7 +96,7 @@ export default function signup(props) {
 
     try {
       setIsLoading(true)
-      await signup(email, password);
+      await signup(email, password, firstName, lastName );
       router.push('/').then(() => setIsLoading(false))
         .catch(err => {
           setIsLoading(false)

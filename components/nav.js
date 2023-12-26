@@ -36,6 +36,11 @@ export default function NavBar() {
           E-MENU
         </a>
         <ul className="flex justify-between items-center">
+          <li className='mx-2 cursor-pointer hover:text-blue-500 transition text-lg'>
+            <Link href="/account">
+              Account
+            </Link>
+          </li>
           <li className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
             <Link href="/about">
               About
@@ -58,8 +63,13 @@ export default function NavBar() {
       </div>
 
       {/* Dropdown nav items */}
-      <div ref={dropDownRef} className="p-2 w-full hidden transition md:hidden">
+      <div ref={dropDownRef} className="px-2 w-full h-0 overflow-hidden transition-[height] duration-300 md:hidden">
         <ul className="w-full">
+          <li className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition cursor-pointer">
+            <Link href="/account">
+              Account
+            </Link>
+          </li>
           <li className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition cursor-pointer">
             About
           </li>
@@ -82,6 +92,7 @@ export default function NavBar() {
   }
 
   function toggleDropdown(event) {
-    dropDownRef.current.classList.toggle('hidden');
+    dropDownRef.current.classList.toggle("h-0")
+    dropDownRef.current.classList.toggle("h-36")
   }
 }
