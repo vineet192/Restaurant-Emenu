@@ -29,7 +29,7 @@ export default function () {
 
   return (
     <div>
-      <div className="w-4/5 m-5 p-2 flex flex-col">
+      <div className="w-full m-5 p-2 flex flex-col">
         <div className='w-2/3 h-0.5 bg-black mb-2 mx-auto' />
         <h1 className="text-6xl mx-auto font-['']">{menuCard.name}</h1>
         <div className='w-2/3 h-0.5 bg-black mt-2 mx-auto' />
@@ -43,16 +43,16 @@ export default function () {
               <h1 className="text-4xl text-blue-600 font-extrabold">
                 {category.title}
               </h1>
-              
-              {category.expanded?
-              <FontAwesomeIcon id="icon" icon={faAngleUp} size='2x' className='mt-auto text-blue-500' />:
-              <FontAwesomeIcon id="icon" icon={faAngleDown} size='2x' className='mt-auto text-blue-500' />}
-              
+
+              {category.expanded ?
+                <FontAwesomeIcon id="icon" icon={faAngleUp} size='2x' className='mt-auto text-blue-500' /> :
+                <FontAwesomeIcon id="icon" icon={faAngleDown} size='2x' className='mt-auto text-blue-500' />}
+
             </div>
             <hr />
             <div className="hidden p-2" id="dish-list">
               {category.dishes.map((dish, dishIndex) => (
-                <div className='flex flex-col' key={dishIndex}>
+                <div className='flex flex-col mb-5' key={dishIndex}>
                   <div className="flex flex-row justify-between items-center my-2" key={dishIndex}>
                     <h1 className="text-2xl font-bold">{dish.dishName}</h1>
                     <span className='min-w-fit ml-5 italic underline'>{dish.dishPrice + " " + menuCard.currency} </span>
@@ -108,14 +108,17 @@ export default function () {
     let dishList = event.currentTarget.querySelector('#dish-list');
     let isHidden = dishList.classList.toggle('hidden');
 
-    let newMenuCard = {...menuCard}
+    let newMenuCard = { ...menuCard }
     newMenuCard.categories[categoryIndex].expanded = !isHidden
     setMenuCard(newMenuCard)
   }
 
   function scrollToCategoryAndOpen(index) {
     let categoryDiv = document.getElementById(index)
-    categoryDiv.scrollIntoView();
-    categoryDiv.click()
+    categoryDiv.scrollIntoView({ behavior: "smooth" });
+
+    if (!menuCard.categories[index].expanded) {
+      categoryDiv.click()
+    }
   }
 }
