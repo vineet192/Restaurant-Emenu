@@ -31,7 +31,7 @@ export default function () {
     <div>
       <div className="w-full m-5 p-2 flex flex-col">
         <div className='w-2/3 h-0.5 bg-black mb-2 mx-auto' />
-        <h1 className="text-6xl mx-auto font-['']">{menuCard.name}</h1>
+        <h1 className="text-6xl mx-auto font-[''] text-center">{menuCard.name}</h1>
         <div className='w-2/3 h-0.5 bg-black mt-2 mx-auto' />
         {menuCard.categories.map((category, categoryIndex) => (
           <div
