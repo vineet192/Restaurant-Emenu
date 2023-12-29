@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
 import ProfileCard from '../components/profileCard';
+import PaginatedMenus from '../components/paginatedMenus';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
   const { currentUser } = useAuth();
@@ -11,7 +14,7 @@ export default function Home() {
       router.push('/login');
       return
     }
-    
+
     if (!currentUser.emailVerified) {
       router.push({ pathname: '/login', query: { err: "unverified" } })
     }
@@ -19,7 +22,9 @@ export default function Home() {
 
   return (
     <div className="h-screen">
-      {currentUser && <ProfileCard></ProfileCard>}
+      {/* {currentUser && <ProfileCard></ProfileCard>} */}
+      {currentUser && <PaginatedMenus></PaginatedMenus>}
+      <ToastContainer/>
     </div>
   );
 }

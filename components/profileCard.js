@@ -1,9 +1,8 @@
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import { Icons } from 'react-toastify';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function ProfileCard(props) {
