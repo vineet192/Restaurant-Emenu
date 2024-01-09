@@ -15,7 +15,7 @@ export default function () {
   const categoriesPopup = useRef();
 
   useEffect(async () => {
-    let res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}&uid=${currentUser.uid}`);
+    let res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}`);
     let data = await res.json();
     console.log(data.menu);
 
@@ -54,7 +54,7 @@ export default function () {
             <hr />
             <div className="hidden p-2" id="dish-list">
               {category.dishes.map((dish, dishIndex) => (
-                <div className='flex flex-col mb-5' key={dishIndex}>
+                <div className='flex flex-col mb-5 text-[color:var(--text)]' key={dishIndex}>
                   <div className="flex flex-row justify-between items-center my-2 text-[color:var(--text)]" key={dishIndex}>
                     <h1 className="text-2xl font-bold">{dish.dishName}</h1>
                     <span className='min-w-fit ml-5 italic underline'>{dish.dishPrice + " " + menuCard.currency} </span>
