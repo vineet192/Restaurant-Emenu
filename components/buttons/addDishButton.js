@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function AddDishButton(props) {
   return (
     <button
-      className="p-2 m-2 self-center flex items-center bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded-md text-white"
+      className="p-2 m-2 self-center flex items-center text-[color:var(--accent1)]"
       onClick={props.onClick}>
       <FontAwesomeIcon
         icon={faPlus}

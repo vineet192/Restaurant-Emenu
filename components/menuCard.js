@@ -5,6 +5,7 @@ import QRCode from 'react-qr-code';
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import { errorToast, successToast } from "../static/toastConfig";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function MenuCard(props) {
 
@@ -12,6 +13,7 @@ export default function MenuCard(props) {
     const optionsButtonRef = useRef()
     const SERVER_URL = process.env.NEXT_PUBLIC_SERVER
     const cardRef = useRef()
+    const {currentUser} = useAuth()
 
     const router = useRouter()
 
@@ -23,7 +25,8 @@ export default function MenuCard(props) {
 
     return (
         <div ref={cardRef}
-            className="py-2 px-20 my-2 mx-auto flex justify-start w-full shadow-md items-center border-2 rounded-lg border-blue-200 relative transition-transform">
+            className="py-2 px-20 my-2 mx-auto flex justify-start w-full 
+            shadow-md items-center rounded-lg  border-2 border-[color:var(--accent1)] relative transition-transform">
 
             {/* Options dropdown */}
             <div className="top-1 right-0 absolute flex p-2">
@@ -48,15 +51,15 @@ export default function MenuCard(props) {
                         <FontAwesomeIcon icon={faTrash} className="mx-2"></FontAwesomeIcon>Delete</li>
                 </ul>
                 <button onClick={toggleOptionsExpansion} ref={optionsButtonRef} className="self-start m-2">
-                    <FontAwesomeIcon icon={faEllipsisV} size="lg"></FontAwesomeIcon>
+                    <FontAwesomeIcon icon={faEllipsisV} size="lg" className="text-[color:var(--accent1)]"></FontAwesomeIcon>
                 </button>
             </div>
 
-            <a href={props.url}><h1 className="text-blue-500 text-xl lg:text-4xl font-bold underline">{props.name}</h1></a>
+            <a href={props.url}><h1 className="text-[color:var(--accent1)] text-xl lg:text-4xl font-bold">{props.name}</h1></a>
             <div className="ml-auto relative p-2">
                 <div className="absolute top-1/2 left-1/2 
                             translate-y-[-50%] translate-x-[-50%] h-full w-full opacity-0 
-                            hover:opacity-75 hover:bg-blue-500 flex justify-center 
+                            hover:opacity-60 hover:bg-[color:var(--accent2)] flex justify-center 
                             items-center rounded-lg duration-300 cursor-pointer"
 
                     onClick={() => navigator.share({ title: "Menu link", url: props.url })}>
@@ -101,7 +104,8 @@ export default function MenuCard(props) {
         let res;
 
         let payload = {
-            id: props.id
+            menuID: props.id,
+            uid: currentUser.uid
         }
 
         try {

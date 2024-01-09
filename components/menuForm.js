@@ -47,7 +47,7 @@ export default function MenuForm(props) {
     //get current menu obj from user
     let menu;
     try {
-      let data = await fetch(SERVER_URL + `/menu/?menuID=${props.menuID}`);
+      let data = await fetch(SERVER_URL + `/menu/?menuID=${props.menuID}&uid=${currentUser.uid}`);
       menu = (await data.json()).menu;
     } catch (err) {
       console.log(err);
@@ -82,7 +82,7 @@ export default function MenuForm(props) {
             type="text"
             size={5}
             disabled={true}
-            className="text-6xl m-2 font-bold text-blue-500 border-b-2 border-transparent transition bg-transparent text-center w-auto focus:border-blue-500"
+            className="text-6xl m-2 font-bold text-[color:var(--text)] border-b-2 border-transparent transition bg-transparent text-center w-auto focus:border-[color:var(--accent2)]"
             value={menuName}
             //OnBlur is used to capture onFocusOut
             onBlur={(event) => {
@@ -93,7 +93,7 @@ export default function MenuForm(props) {
             <FontAwesomeIcon
               icon={faEdit}
               size="2x"
-              className="text-blue-500"
+              className="text-[color:var(--text)]"
             />
           </button>
         </div>
@@ -132,10 +132,10 @@ export default function MenuForm(props) {
 
         {currentTabId != -1 ? (
           <div className="p-2 my-2 flex-col items-center w-full">
-            <h1 className=" text-4xl text-red-700 font-extrabold p-2 w-full">
+            <h1 className=" text-4xl text-[color:var(--accent1)] font-extrabold p-2 w-full">
               {currentTabId > -1 ? categories[currentTabId].title : ''}
             </h1>
-            <hr className="text-red-700"></hr>
+            <hr className="text-[color:var(--accent1)]"></hr>
 
             <div className='flex w-full items-center justify-center'>
               <AddDishButton
@@ -186,9 +186,9 @@ export default function MenuForm(props) {
         <button
           ref={saveFormButtonRef}
 
-          className="flex p-2 m-3 justify-center items-center rounded-lg border-2 
-          border-blue-500 bg-white text-blue-500 hover:bg-blue-500 
-          hover:text-white transition ease-in-out"
+          className="flex p-2 m-3 justify-center items-center border-2 
+          bg-white text-[color:var(--accent2)] hover:scale-110 
+          transition"
 
           onClick={handleFormSave}>
           <h1 className="mx-2 text-2xl font-bold">Save Changes</h1>
@@ -295,6 +295,7 @@ export default function MenuForm(props) {
 
     let payload = {
       menuID: props.menuID,
+      uid: currentUser.uid,
       newMenu: menuEdits,
     };
 
@@ -312,10 +313,12 @@ export default function MenuForm(props) {
       saveFormButtonRef.current.classList.toggle('animate-pulse');
     } catch (err) {
       errorToast('Error saving menu');
+      return
     }
 
     if (res.status != 204) {
       errorToast('Error saving menu');
+      return
     }
     successToast('menu saved successfully!');
   }

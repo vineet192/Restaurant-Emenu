@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+:root{
+  --nav: #252930;
+  --background: #252930;
+  --text: #f2f3f6;
+  --accent1: #009eec;
+  --accent2: #e64814;
+  --background2: #f2f3f6;
+}
+
 html,
 body {
   padding: 0;
@@ -11,8 +21,13 @@ body {
   height: 100%;
 }
 
+body{
+  background-color: var(--background);
+}
+
 input{
   outline: none;
+  background: transparent;
 }
 
 a {

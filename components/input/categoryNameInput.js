@@ -15,8 +15,9 @@ export default function CategoryNameInput(props) {
     
     return (
     <input
-        className="my-2 p-2 flex-shrink-0 outline-none border-transparent 
-        border-2 cursor-pointer focus:border-blue-500 transition"
+        className="my-2 p-2 flex-shrink-0 border-transparent 
+        cursor-pointer text-[color:var(--accent2)] bg-[color:var(--background2)] 
+        rounded-full transition font-bold"
         placeholder="Enter a category"
         ref = {categoryInputRef}
         value={props.value}

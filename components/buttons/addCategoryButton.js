@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function AddCategoryButton(props) {
   return (
     <button
-      className="p-2 flex items-center bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded-md text-white"
+      className="p-2 flex items-center rounded-md text-[color:var(--accent1)]"
       onClick={props.onClick}>
       <FontAwesomeIcon
         icon={props.icon}

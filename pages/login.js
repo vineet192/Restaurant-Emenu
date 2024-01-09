@@ -36,25 +36,25 @@ export default function login(props) {
     <div className="h-screen flex items-center justify-center">
       <form
         onSubmit={onSubmit}>
-        <div className="flex flex-col shadow-lg p-2">
-          <h1 className="self-center m-2 font-extrabold text-3xl mb-16">
+        <div className="flex flex-col p-2 bg-[color:var(--background2)] rounded-md">
+          <h1 className="self-center m-2 font-extrabold text-3xl mb-16 text-[color:var(--accent2)]">
             LOGIN
           </h1>
           <input
-            className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
+            className="m-4 p-1 outline-none bg-transparent focus:border-[color:var(--accent2)] transition border-b"
             placeholder="Email"
             ref={emailRef}></input>
           <input
-            className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
+            className="m-4 p-1 outline-none bg-transparent focus:border-[color:var(--accent2)] transition border-b"
             placeholder="Password"
             type="password"
             ref={passwordRef}></input>
 
-          {!isLoading && <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10 flex">
+          {!isLoading && <button className="p-2 m-2 bg-[color:var(--accent2)] self-center text-[color:var(--text)] text-xl font-semibold mt-10 flex">
             Login
           </button>}
 
-          {isLoading && <button className="p-2 m-2 bg-blue-500 self-center text-white text-xl font-semibold mt-10 flex animate-pulse" disabled>
+          {isLoading && <button className="p-2 m-2 bg-[color:var(--accent2)] self-center text-[color:var(--text)] text-xl font-semibold mt-10 flex animate-pulse" disabled>
             Logging in
           </button>}
 

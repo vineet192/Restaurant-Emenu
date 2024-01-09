@@ -71,8 +71,8 @@ export default function Account(props) {
     return (
         <div className="h-full flex-auto flex justify-center items-center">
 
-            <div className="m-2 p-5 shadow-lg flex flex-col items-center">
-                <h1 className="text-4xl text-blue-500 font-extrabold my-10">
+            <div className="mt-3.5 p-5 shadow-lg flex flex-col items-center bg-[color:var(--background2)] rounded-md">
+                <h1 className="text-4xl text-[color:var(--accent2)] font-extrabold my-10">
                     Account
                 </h1>
 
@@ -90,14 +90,14 @@ export default function Account(props) {
 
                     {/* password and confirm password */}
                     <input
-                        className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
+                        className="m-4 p-1 outline-none bg-transparent focus:border-[color:var(--accent2)] transition border-b"
                         placeholder="Password"
                         ref={passwordRef}
                         type="password"
                         required>
                     </input>
                     <input
-                        className="m-4 p-1 outline-none bg-transparent focus:border-blue-500 transition border-b"
+                        className="m-4 p-1 outline-none bg-transparent focus:border-[color:var(--accent2)] transition border-b"
                         placeholder="Confirm password"
                         ref={confirmPasswordRef}
                         type="password"
