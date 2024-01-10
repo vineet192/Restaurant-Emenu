@@ -29,7 +29,6 @@ export function AuthProvider({ children }) {
       async (user) => {
         if (user) {
           console.log('user signed in!', user);
-          await initializeUser(user.uid);
         } else {
           console.log('user signed out!');
         }
@@ -50,9 +49,10 @@ export function AuthProvider({ children }) {
   }
 
   async function signup(email, password, firstName, lastName) {
-    return createUserWithEmailAndPassword(auth, email, password).then(cred => {
+    return createUserWithEmailAndPassword(auth, email, password).then(async cred => {
       sendEmailVerification(cred.user, { url: process.env.NEXT_PUBLIC_HOSTNAME, handleCodeInApp: true })
       updateProfile(cred.user, { displayName: `${firstName} ${lastName}` })
+      await initializeUser(cred.user.uid);
     });
   }
 
