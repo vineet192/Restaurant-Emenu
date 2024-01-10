@@ -16,7 +16,7 @@ export default function codeVerify(props) {
     return (
         <div className="h-screen flex items-center justify-center">
             <div className="flex flex-col shadow-lg p-5">
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center text-[color:var(--text)]">
                     <h1 className="self-center m-2 font-extrabold text-3xl mb-5">
                         Verify Email
                     </h1>
