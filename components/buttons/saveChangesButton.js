@@ -6,7 +6,7 @@ export default function SaveChangesButton(props) {
     return (<button
         // ref={saveFormButtonRef}
 
-        className="flex p-2 m-3 justify-center items-center rounded-lg border-2 
+        className="flex p-2 m-3 justify-center items-center 
         border-blue-500 bg-white text-blue-500 hover:bg-blue-500 
         hover:text-white transition ease-in-out"
 

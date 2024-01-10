@@ -1,7 +1,5 @@
 import {
-  faAlignJustify,
-  faBars,
-  faUser,
+  faBars
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
@@ -29,26 +27,26 @@ export default function NavBar() {
   if (!show) return null
 
   return (
-    <nav className="relative w-full top-0 z-50">
+    <nav className="relative w-full top-0 z-50 text-[color:var(--text)] bg-[color:var(--nav)] py-5 shadow-md">
       {/* Standard Desktop Nav */}
       <div className="hidden p-5 justify-between items-center md:flex">
         <a href="/" className="text-3xl font-extrabold">
           E-MENU
         </a>
         <ul className="flex justify-between items-center">
-          <li className='mx-2 cursor-pointer hover:text-blue-500 transition text-lg'>
+          <li className='mx-2 cursor-pointer transition text-xl hover:scale-110'>
             <Link href="/account">
               Account
             </Link>
           </li>
-          <li className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
+          <li className="mx-2 cursor-pointer transition text-xl hover:scale-110">
             <Link href="/about">
               About
             </Link>
           </li>
           <li
             onClick={onLogoutClick}
-            className="mx-2 cursor-pointer hover:text-blue-500 transition text-lg">
+            className="mx-2 cursor-pointer transition text-xl hover:scale-110">
             Logout
           </li>
         </ul>

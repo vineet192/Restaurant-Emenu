@@ -1,13 +1,12 @@
 import { useRouter } from "next/router"
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import QRCode from "react-qr-code";
 
 export default function qr(props) {
 
     const router = useRouter();
-    const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
-    const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME;
-    const url = HOST_URL + '/menu/' + router.query.id
+    const qrRef = useRef()
+    const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME
 
     useEffect(() => {
         print_qr()
@@ -22,8 +21,8 @@ export default function qr(props) {
                         width: "100%", marginTop: "50%", alignItems: "center"
                     }}
                 >
-                    <QRCode value={url}></QRCode>
-                    <span style={{margin:"15px"}}>{url}</span>
+                    <QRCode value={router.query.url}></QRCode>
+                    <span style={{ margin: "15px" }}>{router.query.url}</span>
                 </div>
             </div>
             <iframe id="qr-frame" className="w-0 h-0">
