@@ -60,6 +60,7 @@ export function AuthProvider({ children }) {
     const credential = EmailAuthProvider.credential(email, password)
     const reauthCred = await reauthenticateWithCredential(currentUser, credential)
     deleteUser(currentUser)
+    deleteUserData(currentUser.uid)
   }
 
   function logout() {
@@ -73,6 +74,30 @@ export function AuthProvider({ children }) {
     logout,
     deleteAccount
   };
+
+  async function deleteUserData(uid) {
+    const data = { uid: uid };
+    let res;
+
+    try {
+      res = await fetch(SERVER_URL + '/user', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+    }
+    catch (err) {
+      console.log("Error while deleting user data")
+      return
+    }
+
+    if (!res.ok) {
+      console.log("Error while deleting user data")
+      return
+    }
+  }
 
   async function initializeUser(uid) {
     const data = { userID: uid };
