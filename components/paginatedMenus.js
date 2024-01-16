@@ -12,6 +12,7 @@ export default function PaginatedMenus(props) {
     const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME
     const [eMenus, setEmenus] = useState([]);
     const [isFiltered, setIsFiltered] = useState(false)
+    const [isMenusLoading, setIsMenusLoading] = useState(false)
     const addMenuFormRef = useRef()
     const addMenuFormBtn = useRef()
     const menuQueryRef = useRef()
@@ -29,9 +30,9 @@ export default function PaginatedMenus(props) {
                  flex flex-nowrap items-center group 
                 bg-[color:var(--text)] text-[color:var(--accent2)]"
                     onSubmit={searchMenu}>
-                    <input placeholder="search" ref={menuQueryRef} className="text-2xl font-bold"></input>
+                    <input placeholder="search" disabled={isMenusLoading} ref={menuQueryRef} className="text-2xl font-bold"></input>
                     <div className="flex items-center justify-between">
-                        <button><FontAwesomeIcon icon={faSearch} className="mx-1" size="lg"></FontAwesomeIcon></button>
+                        <button disabled={isMenusLoading}><FontAwesomeIcon icon={faSearch} className="mx-1" size="lg"></FontAwesomeIcon></button>
                         {isFiltered &&
                             <button type="button" onClick={clearSearch}><FontAwesomeIcon icon={faTimes} className="mx-1" size="lg"></FontAwesomeIcon></button>}
                     </div>
@@ -40,45 +41,57 @@ export default function PaginatedMenus(props) {
 
 
             {/* Add menu form */}
-            <form
-                ref={addMenuFormRef}
-                onTransitionEnd={clearFormInput}
-                onSubmit={addNewMenu}
-                className="mx-auto w-fit flex flex-col max-h-0 
+            {!isMenusLoading &&
+                <form
+                    ref={addMenuFormRef}
+                    onTransitionEnd={clearFormInput}
+                    onSubmit={addNewMenu}
+                    className="mx-auto w-fit flex flex-col max-h-0 
                 transition-[max-height] duration-300 overflow-hidden mt-4 bg-transparent rounded-lg">
-                <input
-                    required
-                    placeholder="Restaurant name"
-                    className="mx-10 text-3xl font-bold bg-transparent 
+                    <input
+                        required
+                        placeholder="Restaurant name"
+                        className="mx-10 text-3xl font-bold bg-transparent 
                 border-b border-white text-[color:var(--text)] m-5 text-center"></input>
-                <div className="w-full flex justify-center">
-                    <button
-                        className="border text-[color:var(--text)] font-bold 
+                    <div className="w-full flex justify-center">
+                        <button
+                            className="border text-[color:var(--text)] font-bold 
                         hover:bg-[color:var(--text)] hover:text-[color:var(--accent2)] 
                     transition m-2 p-2 w-fit rounded-md">
-                        <FontAwesomeIcon icon={faPlus} className="mx-2"></FontAwesomeIcon>
-                        Add
-                    </button>
-                    <button
-                        onClick={toggleNewMenuForm}
-                        type="button"
-                        className="border text-white font-bold hover:bg-[color:var(--text)] 
+                            <FontAwesomeIcon icon={faPlus} className="mx-2"></FontAwesomeIcon>
+                            Add
+                        </button>
+                        <button
+                            onClick={toggleNewMenuForm}
+                            type="button"
+                            className="border text-white font-bold hover:bg-[color:var(--text)] 
                         hover:text-[color:var(--accent2)] 
                     transition m-2 p-2 w-fit rounded-md">
-                        <FontAwesomeIcon icon={faTimes} className="mx-2"></FontAwesomeIcon>
-                        Cancel
-                    </button>
-                </div>
-            </form>
+                            <FontAwesomeIcon icon={faTimes} className="mx-2"></FontAwesomeIcon>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            }
 
-            <button
-                ref={addMenuFormBtn}
-                onClick={toggleNewMenuForm}
-                className="border bg-[color:var(--text)] text-[color:var(--accent2)] font-bold 
+            {!isMenusLoading &&
+                <button
+                    ref={addMenuFormBtn}
+                    onClick={toggleNewMenuForm}
+                    className="border bg-[color:var(--text)] text-[color:var(--accent2)] font-bold 
                 hover:scale-110 transition-transform mx-auto my-2 p-2 w-fit rounded-md">
-                <FontAwesomeIcon icon={faPlus} className="mx-2"></FontAwesomeIcon>
-                Add Restaurant
-            </button>
+                    <FontAwesomeIcon icon={faPlus} className="mx-2"></FontAwesomeIcon>
+                    Add Restaurant
+                </button>
+            }
+
+            {/* Menus Loading spinner */}
+            {isMenusLoading &&
+                <div className=" mx-auto p-2 rounded-lg bg-[color:var(--text)] 
+                text-[color:var(--accent2)] font-bold animate-pulse">
+                    Your menus are Loading...
+                </div>
+            }
 
             {/* List of menus */}
             <div className="mx-auto w-4/5 flex flex-col p-2">
@@ -109,7 +122,18 @@ export default function PaginatedMenus(props) {
     }
 
     async function getUserMenuObj(uid) {
-        let menus = (await (await fetch(SERVER_URL + `/menu/?uid=${uid}`)).json()).menus;
+        setIsMenusLoading(true)
+
+        let menus
+        try {
+            menus = (await (await fetch(SERVER_URL + `/menu/?uid=${uid}`)).json()).menus;
+        } catch (err) {
+            errorToast("Error retrieving menus")
+            setIsMenusLoading(false)
+            return
+        }
+
+        setIsMenusLoading(false)
         return menus;
     }
 
@@ -164,21 +188,21 @@ export default function PaginatedMenus(props) {
     async function clearSearch(event) {
 
         menuQueryRef.current.value = ""
+        setIsFiltered(false)
 
         await refreshMenus()
-        setIsFiltered(false)
     }
 
     async function searchMenu(event) {
 
         event.preventDefault()
-
         const query = menuQueryRef.current.value
 
         if (query === "") {
-            refreshMenus()
             return
         }
+
+        setIsMenusLoading(true)
 
         const url = `${SERVER_URL}/menu?uid=${currentUser.uid}&query=${query}`
 
@@ -195,7 +219,9 @@ export default function PaginatedMenus(props) {
         }
         catch (err) {
             errorToast("Search failed")
+            setIsMenusLoading(false)
             return
         }
+        setIsMenusLoading(false)
     }
 }
