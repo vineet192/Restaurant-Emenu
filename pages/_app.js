@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import Footer from '../components/footer';
 import NavBar from '../components/nav';
 import { AuthProvider } from '../contexts/AuthContext';
@@ -9,6 +10,7 @@ function MyApp({ Component, pageProps }) {
       <NavBar></NavBar>
       <Component {...pageProps} />
       {/* <Footer></Footer> */}
+      <Analytics />
     </AuthProvider>
   );
 }
