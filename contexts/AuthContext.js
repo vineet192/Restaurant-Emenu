@@ -50,8 +50,9 @@ export function AuthProvider({ children }) {
   }
 
   function anonymousLogin(){
-    return signInAnonymously(auth).then((user) => {
-      user.user.emailVerified = true
+    return signInAnonymously(auth).then(async (cred) => {
+      cred.user.emailVerified = true
+      await initializeUser(cred.user.uid);
     })
   }
 
