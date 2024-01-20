@@ -58,6 +58,8 @@ export default function login(props) {
             Logging in
           </button>}
 
+          <a href='/passwordReset' className='text-sm text-blue-500 underline mx-auto'>Forgot password?</a>
+
 
           <span className="self-center m-2">
             Don't have an account?{' '}

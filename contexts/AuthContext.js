@@ -7,7 +7,7 @@ import {
   deleteUser,
   signOut,
   sendEmailVerification,
-  applyActionCode,
+  sendPasswordResetEmail,
   EmailAuthProvider,
 } from 'firebase/auth';
 import React, { useContext, useEffect, useState } from 'react';
@@ -62,6 +62,10 @@ export function AuthProvider({ children }) {
     deleteUser(currentUser)
   }
 
+  async function resetPassword(email) {
+    return sendPasswordResetEmail(auth, email, { url: process.env.NEXT_PUBLIC_HOSTNAME, handleCodeInApp: true })
+  }
+
   function logout() {
     return signOut(auth);
   }
@@ -71,7 +75,8 @@ export function AuthProvider({ children }) {
     login,
     signup,
     logout,
-    deleteAccount
+    deleteAccount,
+    resetPassword
   };
 
   async function initializeUser(uid) {
