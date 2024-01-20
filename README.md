@@ -1,3 +1,12 @@
+# Screenshots
+<img src="https://i.ibb.co/rF9PCWw/Homepage.png" alt="Homepage" border="0">
+<p>Homepage</p>
+<img src="https://i.ibb.co/Swvqq24/options.png" alt="options" border="0">
+<p>Download QR code, Edit/Add/Delete Menus</p>
+<img src="https://i.ibb.co/VwkxZBh/editMenu.png" alt="editMenu" border="0">
+<p>Editing a Menu</p>
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
