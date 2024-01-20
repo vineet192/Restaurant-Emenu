@@ -140,10 +140,11 @@ export default function () {
 
   function scrollToCategoryAndOpen(index) {
     let categoryDiv = document.getElementById(index)
-    categoryDiv.scrollIntoView({ behavior: "smooth" });
 
     if (!menuCard.categories[index].expanded) {
       categoryDiv.click()
     }
+
+    categoryDiv.scrollIntoView(true, { behavior: "smooth" });
   }
 }
