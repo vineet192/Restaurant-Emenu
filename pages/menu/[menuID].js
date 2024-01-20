@@ -31,7 +31,7 @@ export default function () {
 
   return (
     <div>
-      <div className="w-full m-5 p-2 flex flex-col">
+      <div className="w-full my-5 p-2 flex flex-col">
         <div className='w-2/3 h-0.5 bg-[color:var(--accent1)] mb-2 mx-auto' />
         <h1 className="text-6xl mx-auto font-[''] text-center text-[color:var(--text)]">{menuCard.name}</h1>
         <div className='w-2/3 h-0.5 bg-[color:var(--accent1)] mt-2 mx-auto' />
@@ -57,9 +57,9 @@ export default function () {
                 <div className='flex flex-col mb-5' key={dishIndex}>
                   <div className="flex flex-row justify-between items-center my-2 text-[color:var(--text)]" key={dishIndex}>
                     <h1 className="text-2xl font-bold">{dish.dishName}</h1>
-                    <span className='min-w-fit ml-5 italic underline'>{dish.dishPrice + " " + menuCard.currency} </span>
+                    <span className='min-w-fit ml-5 italic underline'>{dish.dishPrice} </span>
                   </div>
-                  <span>{dish.dishDescription}</span>
+                  <span className='text-[color:var(--text)]'>{dish.dishDescription}</span>
                   <hr />
                 </div>
               ))}
