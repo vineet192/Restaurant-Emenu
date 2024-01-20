@@ -4,12 +4,14 @@ import { useAuth } from '../contexts/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { errorToast } from '../static/toastConfig';
 import { ToastContainer, toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function login(props) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
-  const { login, currentUser } = useAuth();
+  const { login, currentUser, anonymousLogin } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export default function login(props) {
       return
     }
 
-    if(router.query.err === "unverified"){
+    if (router.query.err === "unverified") {
       errorToast("Please verify your email")
     }
   }, [])
@@ -50,9 +52,19 @@ export default function login(props) {
             type="password"
             ref={passwordRef}></input>
 
-          {!isLoading && <button className="p-2 m-2 bg-[color:var(--accent2)] self-center text-[color:var(--text)] text-xl font-semibold mt-10 flex">
-            Login
-          </button>}
+          {!isLoading &&
+            <div className='flex justify-center'>
+              <button className="p-2 m-2 bg-[color:var(--accent2)] self-center text-[color:var(--text)] text-xl font-semibold mt-10 flex">
+                Login
+              </button>
+              <button
+                type='button'
+                onClick={guestLogin}
+                className="p-2 m-2 border border-[color:var(--accent2)] flex items-center bg-[color:var(--background2)] self-center text-[color:var(--accent2)] text-xl font-semibold mt-10">
+                <p className='mx-2'>Guest</p>
+                <FontAwesomeIcon icon={faSignInAlt}></FontAwesomeIcon>
+              </button>
+            </div>}
 
           {isLoading && <button className="p-2 m-2 bg-[color:var(--accent2)] self-center text-[color:var(--text)] text-xl font-semibold mt-10 flex animate-pulse" disabled>
             Logging in
@@ -72,6 +84,20 @@ export default function login(props) {
       <ToastContainer />
     </div>
   );
+
+  async function guestLogin(event) {
+    try {
+      setIsLoading(true)
+      await anonymousLogin()
+
+      router.push("/").then(() => setIsLoading(false))
+    }
+    catch (err) {
+      console.log(err)
+      setIsLoading(false)
+      errorToast("Error Logging in")
+    }
+  }
 
   async function onSubmit(event) {
     event.preventDefault();
