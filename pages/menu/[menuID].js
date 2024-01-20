@@ -11,13 +11,32 @@ export default function () {
 
   const [menuCard, setMenuCard] = useState({});
   const { currentUser } = useAuth()
+  const [isLoading, setIsLoading] = useState(false)
 
   const categoriesPopup = useRef();
 
+  useEffect(() => {
+    console.log(isLoading)
+  }, [isLoading])
+
   useEffect(async () => {
-    let res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}`);
+
+    setIsLoading(true)
+    let res
+
+    try {
+      res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}`);
+
+      if (!res.ok) {
+        throw new Error("Bad request")
+      }
+    } catch (err) {
+      alert("An unexpected error occured")
+      return
+    }
+
     let data = await res.json();
-    console.log(data.menu);
+    setIsLoading(false)
 
     data.menu.categories.map(category => {
       return { ...category, expanded: false }
@@ -25,17 +44,19 @@ export default function () {
     setMenuCard((prevState) => data.menu);
   }, []);
 
-  if (Object.keys(menuCard).length == 0) {
-    return null;
-  }
-
   return (
-    <div>
+    <div className=''>
+
+      {isLoading &&
+        <div className='fixed left-1/2 top-20 rounded-xl font-bold animate-pulse 
+        bg-[color:var(--background2)] text-[color:var(--accent2)] p-3'>
+          Loading
+        </div>}
       <div className="w-full my-5 p-2 flex flex-col">
         <div className='w-2/3 h-0.5 bg-[color:var(--accent1)] mb-2 mx-auto' />
         <h1 className="text-6xl mx-auto font-[''] text-center text-[color:var(--text)]">{menuCard.name}</h1>
         <div className='w-2/3 h-0.5 bg-[color:var(--accent1)] mt-2 mx-auto' />
-        {menuCard.categories.map((category, categoryIndex) => (
+        {menuCard.categories && menuCard.categories.map((category, categoryIndex) => (
           <div
             className="flex flex-col my-10 mx-2"
             key={categoryIndex}
@@ -73,7 +94,7 @@ export default function () {
         ref={categoriesPopup}>
         <h1 className="text-2xl font-extrabold">Categories</h1>
         <ul className="my-5">
-          {menuCard.categories.map((category, index) => (
+          {menuCard.categories && menuCard.categories.map((category, index) => (
             <li key={index} className="my-2">
               <h1
                 className="text-2xl cursor-pointer"
