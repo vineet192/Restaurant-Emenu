@@ -9,6 +9,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   EmailAuthProvider,
+  signInAnonymously
 } from 'firebase/auth';
 import React, { useContext, useEffect, useState } from 'react';
 import { auth } from '../static/firebase';
@@ -48,6 +49,12 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
+  function anonymousLogin(){
+    return signInAnonymously(auth).then((user) => {
+      user.user.emailVerified = true
+    })
+  }
+
   async function signup(email, password, firstName, lastName) {
     return createUserWithEmailAndPassword(auth, email, password).then(async cred => {
       sendEmailVerification(cred.user, { url: process.env.NEXT_PUBLIC_HOSTNAME, handleCodeInApp: true })
@@ -77,7 +84,8 @@ export function AuthProvider({ children }) {
     signup,
     logout,
     deleteAccount,
-    resetPassword
+    resetPassword,
+    anonymousLogin
   };
 
   async function deleteUserData(uid) {
