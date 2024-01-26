@@ -315,7 +315,7 @@ export default function MenuForm(props) {
 
     saveFormButtonRef.current.classList.toggle("animate-pulse")
     await uploadMenuUpdates()
-    await uploadMenuImageUpdates()
+    // await uploadMenuImageUpdates()
     saveFormButtonRef.current.classList.toggle("animate-pulse")
   }
 
