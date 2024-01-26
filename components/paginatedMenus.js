@@ -1,4 +1,4 @@
-import { faFilter, faPlus, faSearch, faTimes, faUserTimes } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
@@ -126,7 +126,7 @@ export default function PaginatedMenus(props) {
 
         let menus
         try {
-            menus = (await (await fetch(SERVER_URL + `/menu/?uid=${uid}`)).json()).menus;
+            menus = (await (await fetch(SERVER_URL + `/menu/?uid=${uid}&isPreview=false`)).json()).menus;
         } catch (err) {
             errorToast("Error retrieving menus")
             setIsMenusLoading(false)
