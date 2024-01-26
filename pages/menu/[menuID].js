@@ -25,7 +25,7 @@ export default function () {
     let res
 
     try {
-      res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}`);
+      res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}&isPreview=true`);
 
       if (!res.ok) {
         throw new Error("Bad request")

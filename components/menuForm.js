@@ -5,7 +5,7 @@ import AddCategoryButton from '../components/buttons/addCategoryButton';
 import AddDishButton from './buttons/addDishButton';
 import RemoveCategoryButton from './buttons/removeCategoryButton';
 import DishCard from './dishCard';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../contexts/AuthContext';
 import { errorToast, successToast } from '../static/toastConfig';
@@ -35,6 +35,7 @@ export default function MenuForm(props) {
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
   const [menuName, setMenuName] = useState('');
   const formRef = useRef();
+  const imageFormDataRef = useRef(new FormData()) //These images will be POSTed after the text payload
   const { currentUser } = useAuth();
   const categoriesDiv = useRef();
   const saveFormButtonRef = useRef();
@@ -47,8 +48,15 @@ export default function MenuForm(props) {
     //get current menu obj from user
     let menu;
     try {
-      let data = await fetch(SERVER_URL + `/menu/?menuID=${props.menuID}&uid=${currentUser.uid}`);
-      menu = (await data.json()).menu;
+      let res = await fetch(SERVER_URL + `/menu/?menuID=${props.menuID}&uid=${currentUser.uid}&isPreview=false`);
+
+      if (res.status === 403) {
+        alert("You aren't allowed to edit this menu!")
+        router.push("/")
+        return
+      }
+
+      menu = (await res.json()).menu;
     } catch (err) {
       console.log(err);
       alert('Something went wrong fetching your details');
@@ -62,8 +70,8 @@ export default function MenuForm(props) {
       newCategories[index] = element;
     });
 
-    if(Object.keys(newCategories).length == 0){
-      newCategories[0] = {"dishes": [], "title": "Appetizers"}
+    if (Object.keys(newCategories).length == 0) {
+      newCategories[0] = { "dishes": [], "title": "Appetizers" }
     }
 
     setCategories(newCategories);
@@ -169,7 +177,8 @@ export default function MenuForm(props) {
                       onPriceChange={(event) => handlePriceChange(event, index)}
                       dishPrice={
                         categories[currentTabId].dishes[index].dishPrice
-                      }></DishCard>
+                      }
+                      onImageChange={(event) => handleDishImageChange(event, index)}></DishCard>
                   );
                 })}
               </div>
@@ -217,7 +226,7 @@ export default function MenuForm(props) {
 
   function handleRemoveCategoryClick(event) {
 
-    if(Object.keys(categories).length <= 1){
+    if (Object.keys(categories).length <= 1) {
       alert("You must have at least one category!")
       return
     }
@@ -226,7 +235,7 @@ export default function MenuForm(props) {
 
     let categoryInput = event.currentTarget.parentElement.querySelector("input")
 
-    categoryInput.style.width= 0
+    categoryInput.style.width = 0
 
     let newCategories = { ...categories };
     setCurrentTabId(-1);
@@ -264,6 +273,20 @@ export default function MenuForm(props) {
     setCategories(newCategories);
   }
 
+  // Keeps track of dish images in a formData as a 
+  // KV pair. format : "<categoryTitle>:<dishIndex>" -> <File obj>
+  function handleDishImageChange(event, index) {
+
+    if (event.currentTarget.files.length === 0) return
+
+    imageFormDataRef.current
+      .append(`${categories[currentTabId].title}:${index}`, event.currentTarget.files[0])
+
+    for (let entry of imageFormDataRef.current.entries()) {
+      console.log("Entry: ", entry)
+    }
+  }
+
   function handleMenuNameChange(event) {
     setMenuName(event.currentTarget.value);
   }
@@ -289,7 +312,14 @@ export default function MenuForm(props) {
   }
 
   async function handleFormSave(event) {
-    //Write to db here
+
+    saveFormButtonRef.current.classList.toggle("animate-pulse")
+    await uploadMenuUpdates()
+    await uploadMenuImageUpdates()
+    saveFormButtonRef.current.classList.toggle("animate-pulse")
+  }
+
+  async function uploadMenuUpdates() {
 
     let menuEdits = { categories: Object.values(categories), name: menuName };
 
@@ -308,18 +338,32 @@ export default function MenuForm(props) {
 
     let res;
     try {
-      saveFormButtonRef.current.classList.toggle('animate-pulse');
       res = await fetch(SERVER_URL + '/menu/', requestOptions);
-      saveFormButtonRef.current.classList.toggle('animate-pulse');
+      if (!res.ok) throw new Error()
+
     } catch (err) {
       errorToast('Error saving menu');
       return
     }
+  }
 
-    if (res.status != 204) {
-      errorToast('Error saving menu');
+  async function uploadMenuImageUpdates() {
+    let requestOptions = {
+      method: "PATCH",
+      body: imageFormDataRef.current,
+      redirect: "follow"
+    };
+
+    let res;
+
+    try {
+      res = await fetch(SERVER_URL + "/menu/images", requestOptions)
+      if (!res.ok) throw new Error()
+    } catch (err) {
+      errorToast("Error updating images")
       return
     }
-    successToast('menu saved successfully!');
+
+    successToast("Menu saved successfully!")
   }
 }
