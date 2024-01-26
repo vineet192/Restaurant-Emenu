@@ -340,6 +340,7 @@ export default function MenuForm(props) {
     try {
       res = await fetch(SERVER_URL + '/menu/', requestOptions);
       if (!res.ok) throw new Error()
+      successToast("Menu saved successfully!")
 
     } catch (err) {
       errorToast('Error saving menu');
