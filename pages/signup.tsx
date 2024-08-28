@@ -5,12 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { errorToast } from '../static/toastConfig';
 import { ToastContainer } from 'react-toastify';
 
-export default function signup(props) {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const firstNameRef = useRef()
-  const lastNameRef = useRef()
-  const confirmPasswordRef = useRef();
+export default function signup() {
+  const emailRef = useRef<HTMLInputElement>();
+  const passwordRef = useRef<HTMLInputElement>();
+  const firstNameRef = useRef<HTMLInputElement>()
+  const lastNameRef = useRef<HTMLInputElement>()
+  const confirmPasswordRef = useRef<HTMLInputElement>();
   const [isLoading, setIsLoading] = useState(false);
   const { signup, currentUser } = useAuth();
   const router = useRouter()
