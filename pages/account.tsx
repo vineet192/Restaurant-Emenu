@@ -9,10 +9,10 @@ export default function Account(props) {
 
     const { currentUser, deleteAccount } = useAuth()
     const router = useRouter()
-    const credentialsViewRef = useRef()
-    const passwordRef = useRef()
-    const confirmPasswordRef = useRef()
-    const deletePromptButtonRef = useRef()
+    const credentialsViewRef = useRef<HTMLFormElement>()
+    const passwordRef = useRef<HTMLInputElement>()
+    const confirmPasswordRef = useRef<HTMLInputElement>()
+    const deletePromptButtonRef = useRef<HTMLButtonElement>()
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
@@ -78,12 +78,12 @@ export default function Account(props) {
 
                 <div className="flex flex-nowrap items-center my-2 w-full pr-2 border ">
                     <label htmlFor="name" className="mr-10 bg-gray-200 p-3 ">Name</label>
-                    <p name="name" className="ml-auto">{currentUser.displayName}</p>
+                    <p id="name" className="ml-auto">{currentUser.displayName}</p>
                 </div>
 
                 <div className="flex flex-nowrap items-center my-2 border pr-2">
                     <label htmlFor="email" className="mr-10 bg-gray-200 p-3 ">Email</label>
-                    <p name="email" className="ml-auto">{currentUser.email}</p>
+                    <p id="email" className="ml-auto">{currentUser.email}</p>
                 </div>
 
                 <form ref={credentialsViewRef} className="flex flex-col h-0 overflow-hidden transtion-[height] duration-200" onSubmit={event => event.preventDefault()}>
