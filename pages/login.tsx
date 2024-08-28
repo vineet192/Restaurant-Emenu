@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { errorToast } from '../static/toastConfig';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
-export default function login(props) {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+export default function login() {
+  const emailRef = useRef<HTMLInputElement>();
+  const passwordRef = useRef<HTMLInputElement>();
   const [isLoading, setIsLoading] = useState(false);
   const { login, currentUser, anonymousLogin } = useAuth();
   const router = useRouter();
@@ -85,7 +85,8 @@ export default function login(props) {
     </div>
   );
 
-  async function guestLogin(event) {
+
+  async function guestLogin(event: any){
     try {
       setIsLoading(true)
       await anonymousLogin()
@@ -99,7 +100,7 @@ export default function login(props) {
     }
   }
 
-  async function onSubmit(event) {
+  async function onSubmit(event: any) {
     event.preventDefault();
 
     let email = emailRef.current.value;
