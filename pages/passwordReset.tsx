@@ -1,9 +1,9 @@
-import { useRef } from "react"
+import { FormEvent, useRef } from "react"
 import { useAuth } from "../contexts/AuthContext"
 
-export default function PasswordReset(props) {
+export default function PasswordReset() {
 
-    const emailRef = useRef()
+    const emailRef = useRef<HTMLInputElement>()
     const { resetPassword } = useAuth()
 
     return (
@@ -27,11 +27,11 @@ export default function PasswordReset(props) {
         </div>
     )
 
-    function onSubmit(event) {
+    function onSubmit(event: FormEvent) {
         event.preventDefault()
         resetPassword(emailRef.current.value)
         .then(() => alert(`Password reset link sent to ${emailRef.current.value}`))
-        .catch(err => {
+        .catch((err: Error) => {
             alert("An unexpected error occured, please try again")
         })
     }
