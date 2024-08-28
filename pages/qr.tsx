@@ -1,11 +1,10 @@
 import { useRouter } from "next/router"
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import QRCode from "react-qr-code";
 
-export default function qr(props) {
+export default function qr() {
 
     const router = useRouter();
-    const qrRef = useRef()
     const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME
 
     useEffect(() => {
@@ -21,7 +20,7 @@ export default function qr(props) {
                         width: "100%", marginTop: "50%", alignItems: "center"
                     }}
                 >
-                    <QRCode value={router.query.url}></QRCode>
+                    <QRCode value={router.query.url as string}></QRCode>
                     <span style={{ margin: "15px" }}>{router.query.url}</span>
                 </div>
             </div>
@@ -32,18 +31,19 @@ export default function qr(props) {
 
     function print_qr() {
 
-        let fr = document.getElementById('qr-frame').contentWindow
-        let container = document.getElementById('content-div')
+        const frame = document.getElementById('qr-frame') as HTMLIFrameElement
 
-        fr.document.open()
-        fr.document.write(container.innerHTML)
-        fr.document.close()
+        const frameWindow = frame.contentWindow
+        const container = document.getElementById('content-div')
 
-        fr.focus()
-        fr.addEventListener('afterprint', () => {
-            console.log("Print over :(")
+        frameWindow.document.open()
+        frameWindow.document.write(container.innerHTML)
+        frameWindow.document.close()
+
+        frameWindow.focus()
+        frameWindow.addEventListener('afterprint', () => {
             router.push(HOST_URL)
         })
-        fr.print()
+        frameWindow.print()
     }
 }
