@@ -1,11 +1,11 @@
 import { faPlus, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { HTMLInputTypeAttribute, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import MenuCard from "./menuCard";
 import { errorToast, successToast } from '../static/toastConfig';
 
-export default function PaginatedMenus(props) {
+export default function PaginatedMenus() {
 
     const { currentUser } = useAuth()
     const SERVER_URL = process.env.NEXT_PUBLIC_SERVER
@@ -18,7 +18,7 @@ export default function PaginatedMenus(props) {
     const menuQueryRef = useRef<HTMLInputElement>()
 
     useEffect(() => {
-        initMenus()
+        refreshMenus().finally(() => setIsMenusLoading(false))
     }, []);
 
 
@@ -89,7 +89,7 @@ export default function PaginatedMenus(props) {
             {isMenusLoading &&
                 <div className=" mx-auto p-2 rounded-lg bg-[color:var(--text)] 
                 text-[color:var(--accent2)] font-bold animate-pulse">
-                    Your menus are Loading...
+                    Your menus are loading...
                 </div>
             }
 
@@ -109,15 +109,8 @@ export default function PaginatedMenus(props) {
         </div>
     )
 
-    async function initMenus() {
-        let userMenus = await getUserMenuObj(currentUser.uid);
-        let newMenus = [...eMenus];
-        newMenus = userMenus;
-        setEmenus(newMenus);
-    }
-
     async function refreshMenus() {
-        let userMenus = await getUserMenuObj(currentUser.uid);
+        const userMenus = await getUserMenuObj(currentUser.uid);
         setEmenus(userMenus)
     }
 
