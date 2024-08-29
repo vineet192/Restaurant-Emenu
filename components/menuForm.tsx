@@ -108,7 +108,7 @@ export default function MenuForm({menuID}: MenuFormProps) {
                         onFocus={handleCategorySelect}
                         value={categories[key].title}></CategoryNameInput>
                       <RemoveCategoryButton
-                        id={key}
+                        _id={key}
                         onClick={handleRemoveCategoryClick}></RemoveCategoryButton>
                     </div>
                   );
