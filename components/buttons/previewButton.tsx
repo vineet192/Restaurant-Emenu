@@ -1,6 +1,10 @@
 import { useRouter } from "next/router"
 
-export default function PreviewButton(props) {
+type PreviewButtonProps = {
+    preview_url: string
+}
+
+export default function PreviewButton(props: PreviewButtonProps) {
 
     const router = useRouter()
 
