@@ -12,14 +12,11 @@ export default function ProfileCard(props) {
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
   const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME;
 
-  const addMenuButton = useRef();
-  const addMenuForm = useRef();
+  const addMenuButton = useRef<HTMLButtonElement>();
+  const addMenuForm = useRef<HTMLDivElement>();
 
-  useEffect(async () => {
-    let userMenus = await getUserMenuObj(currentUser.uid);
-    let newMenus = [...eMenus];
-    newMenus = userMenus;
-    setEmenus(newMenus);
+  useEffect(() => {
+    initMenus()
   }, []);
 
 
@@ -103,7 +100,12 @@ export default function ProfileCard(props) {
     </div>
   );
 
-  function emenuRedirect(menuID) {
+  async function initMenus(){
+    const userMenus = await getUserMenuObj(currentUser.uid);
+    setEmenus(userMenus);
+  }
+
+  function emenuRedirect(menuID: string) {
     router.push('/menu-config/' + menuID);
   }
 
@@ -118,7 +120,7 @@ export default function ProfileCard(props) {
   }
 
   async function saveMenuForUser() {
-    let menuName = addMenuForm.current.children[0].value;
+    let menuName = (addMenuForm.current.children[0] as HTMLInputElement).value;
     let currency = 'INR';
 
     let payload = {
@@ -193,6 +195,6 @@ export default function ProfileCard(props) {
     }
 
     console.log("Deleted Successfully")
-    router.reload(window.location.pathname)
+    router.reload()
   }
 }
