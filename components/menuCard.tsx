@@ -1,6 +1,6 @@
 import { faDownload, faEdit, faEllipsisV, faShare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, MouseEvent } from "react";
 import QRCode from 'react-qr-code';
 import Link from 'next/link';
 import { useRouter } from "next/router";
@@ -9,10 +9,10 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function MenuCard(props) {
 
-    const optionsDropDownRef = useRef()
-    const optionsButtonRef = useRef()
+    const optionsDropDownRef = useRef<HTMLUListElement>()
+    const optionsButtonRef = useRef<HTMLButtonElement>()
     const SERVER_URL = process.env.NEXT_PUBLIC_SERVER
-    const cardRef = useRef()
+    const cardRef = useRef<HTMLDivElement>()
     const {currentUser} = useAuth()
 
     const router = useRouter()
