@@ -1,11 +1,15 @@
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MouseEventHandler } from "react";
 
-export default function SaveChangesButton(props) {
+type SaveChangesButtonProps = {
+  handleFormSave: MouseEventHandler<HTMLButtonElement>,
+}
+
+export default function SaveChangesButton(props: SaveChangesButtonProps) {
 
     return (<button
-        // ref={saveFormButtonRef}
-
+    
         className="flex p-2 m-3 justify-center items-center 
         border-blue-500 bg-white text-blue-500 hover:bg-blue-500 
         hover:text-white transition ease-in-out"
