@@ -1,7 +1,13 @@
 import {faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MouseEventHandler } from 'react';
 
-export default function removeCategoryButton(props) {
+type RemoveCategoryButtonProps = {
+  _id: string,
+  onClick: MouseEventHandler<HTMLButtonElement>
+}
+
+export default function removeCategoryButton(props: RemoveCategoryButtonProps) {
   return (
     <button
       id={props._id}
