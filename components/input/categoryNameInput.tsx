@@ -1,8 +1,14 @@
-import { useEffect, useRef } from "react"
+import { ChangeEventHandler, FocusEventHandler, useEffect, useRef } from "react"
 
-export default function CategoryNameInput(props) {
+type CategoryNameInputProps = {
+    value: string,
+    onFocus: FocusEventHandler<HTMLInputElement>,
+    onChange: ChangeEventHandler<HTMLInputElement>
+}
 
-    const categoryInputRef = useRef(null)
+export default function CategoryNameInput(props: CategoryNameInputProps) {
+
+    const categoryInputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         if(!categoryInputRef){
