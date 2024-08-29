@@ -1,6 +1,6 @@
 import { faEdit, faPlus, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState, MouseEvent } from 'react';
 import AddCategoryButton from './buttons/addCategoryButton';
 import AddDishButton from './buttons/addDishButton';
 import RemoveCategoryButton from './buttons/removeCategoryButton';

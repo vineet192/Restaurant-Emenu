@@ -1,14 +1,26 @@
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef } from "react";
+import { ChangeEventHandler, MouseEventHandler, useEffect, useRef } from "react";
 
-export default function DishCard(props) {
+type DishCardProps = {
+  onDishNameChange: ChangeEventHandler<HTMLInputElement>,
+  onPriceChange: ChangeEventHandler<HTMLInputElement>,
+  onDishDescriptionChange: ChangeEventHandler<HTMLTextAreaElement>,
+  onRemove: MouseEventHandler<HTMLButtonElement>
+  onImageChange: (event) => void
+  dishName: string,
+  dishPrice: string,
+  dishDescription: string,
 
-  const cardRef = useRef()
+}
+
+export default function DishCard(props: DishCardProps) {
+
+  const cardRef = useRef<HTMLDivElement>()
 
   useEffect(() => {
     cardRef.current.scrollIntoView({ behavior: 'smooth' })
-    setTimeout(() => { cardRef.current.style.opacity = 100; }, 150)
+    setTimeout(() => { cardRef.current.style.opacity = "100"; }, 150)
   }, [])
 
   return (
