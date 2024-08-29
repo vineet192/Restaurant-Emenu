@@ -3,18 +3,17 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, MouseEvent } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
 
 export default function NavBar() {
   const { logout, currentUser } = useAuth();
-  const dropDownRef = useRef();
+  const dropDownRef = useRef<HTMLDivElement>();
   const router = useRouter()
   const [show, setShow] = useState(true)
 
   useEffect(() => {
-    console.log(window.location.pathname)
 
     if (currentUser === null || window.location.pathname.match(/^\/menu\/[a-zA-Z0-9]+\/*$/)) {
       setShow(false)
@@ -69,7 +68,9 @@ export default function NavBar() {
             </Link>
           </li>
           <li className="w-full block text-left p-2 text-lg hover:bg-gray-200 hover:text-blue-500 outline-none transition cursor-pointer">
-            About
+            <Link href="/about">
+              About
+            </Link>
           </li>
           <li
             onClick={onLogoutClick}
@@ -89,7 +90,7 @@ export default function NavBar() {
     }
   }
 
-  function toggleDropdown(event) {
+  function toggleDropdown(event: MouseEvent) {
     dropDownRef.current.classList.toggle("h-0")
     dropDownRef.current.classList.toggle("h-36")
   }
