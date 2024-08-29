@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-let successToast = (msg) =>
+let successToast = (msg: string) =>
   toast.success(msg, {
     position: 'top-right',
     autoClose: 1000,
@@ -10,7 +10,7 @@ let successToast = (msg) =>
     draggable: true,
   });
 
-let errorToast = (msg) =>
+let errorToast = (msg: string) =>
   toast.error(msg, {
     position: 'top-right',
     autoClose: 1000,
@@ -20,7 +20,7 @@ let errorToast = (msg) =>
     draggable: true,
   });
 
-let neutralToast = (msg) =>
+let neutralToast = (msg: string) =>
   toast(msg, {
     position: 'top-right',
     autoClose: 1000,
