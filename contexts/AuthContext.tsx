@@ -9,25 +9,26 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   EmailAuthProvider,
-  signInAnonymously
+  signInAnonymously,
+  User
 } from 'firebase/auth';
 import React, { useContext, useEffect, useState } from 'react';
 import { auth } from '../static/firebase';
 
-const AuthContext = React.createContext();
+const AuthContext = React.createContext(null);
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
 
 export function useAuth() {
   return useContext(AuthContext);
 }
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState<User>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
-      async (user) => {
+      async (user: User) => {
         if (user) {
           console.log('user signed in!', user);
         } else {
@@ -45,18 +46,17 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  function login(email, password) {
+  function login(email: string, password: string) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
   function anonymousLogin(){
     return signInAnonymously(auth).then(async (cred) => {
-      cred.user.emailVerified = true
       await initializeUser(cred.user.uid);
     })
   }
 
-  async function signup(email, password, firstName, lastName) {
+  async function signup(email: string, password: string, firstName: string, lastName: string) {
     return createUserWithEmailAndPassword(auth, email, password).then(async cred => {
       sendEmailVerification(cred.user, { url: process.env.NEXT_PUBLIC_HOSTNAME, handleCodeInApp: true })
       updateProfile(cred.user, { displayName: `${firstName} ${lastName}` })
@@ -64,14 +64,14 @@ export function AuthProvider({ children }) {
     });
   }
 
-  async function deleteAccount(email, password) {
+  async function deleteAccount(email: string, password: string) {
     const credential = EmailAuthProvider.credential(email, password)
     const reauthCred = await reauthenticateWithCredential(currentUser, credential)
     deleteUser(currentUser)
     deleteUserData(currentUser.uid)
   }
 
-  async function resetPassword(email) {
+  async function resetPassword(email: string) {
     return sendPasswordResetEmail(auth, email, { url: process.env.NEXT_PUBLIC_HOSTNAME, handleCodeInApp: true })
   }
 
@@ -89,7 +89,7 @@ export function AuthProvider({ children }) {
     anonymousLogin
   };
 
-  async function deleteUserData(uid) {
+  async function deleteUserData(uid: string) {
     const data = { uid: uid };
     let res;
 
@@ -113,7 +113,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  async function initializeUser(uid) {
+  async function initializeUser(uid: string) {
     const data = { userID: uid };
     let res;
 
