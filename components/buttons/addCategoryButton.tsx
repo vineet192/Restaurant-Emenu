@@ -1,7 +1,13 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MouseEventHandler } from 'react';
 
-export default function AddCategoryButton(props) {
+type AddCategoryButtonProps = {
+  onClick: MouseEventHandler<HTMLButtonElement>
+  icon: IconProp
+}
+
+export default function AddCategoryButton(props: AddCategoryButtonProps) {
   return (
     <button
       className="p-2 flex items-center rounded-md text-[color:var(--accent1)]"
