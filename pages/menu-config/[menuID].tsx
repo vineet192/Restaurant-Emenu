@@ -15,7 +15,7 @@ export default function Home() {
   });
   return (
     <div>
-      <MenuForm menuID={menuID}></MenuForm>
+      <MenuForm menuID={menuID as string}></MenuForm>
     </div>
   );
 }
