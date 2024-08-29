@@ -1,6 +1,6 @@
 import { faPlus, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
+import { HTMLInputTypeAttribute, useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import MenuCard from "./menuCard";
 import { errorToast, successToast } from '../static/toastConfig';
@@ -13,11 +13,11 @@ export default function PaginatedMenus(props) {
     const [eMenus, setEmenus] = useState([]);
     const [isFiltered, setIsFiltered] = useState(false)
     const [isMenusLoading, setIsMenusLoading] = useState(false)
-    const addMenuFormRef = useRef()
-    const addMenuFormBtn = useRef()
-    const menuQueryRef = useRef()
+    const addMenuFormRef = useRef<HTMLFormElement>()
+    const addMenuFormBtn = useRef<HTMLButtonElement>()
+    const menuQueryRef = useRef<HTMLInputElement>()
 
-    useEffect(async () => {
+    useEffect(() => {
         initMenus()
     }, []);
 
@@ -121,7 +121,7 @@ export default function PaginatedMenus(props) {
         setEmenus(userMenus)
     }
 
-    async function getUserMenuObj(uid) {
+    async function getUserMenuObj(uid: string) {
         setIsMenusLoading(true)
 
         let menus
@@ -137,7 +137,7 @@ export default function PaginatedMenus(props) {
         return menus;
     }
 
-    function toggleNewMenuForm(event) {
+    function toggleNewMenuForm() {
         addMenuFormBtn.current.classList.toggle("hidden")
         addMenuFormRef.current.classList.toggle("max-h-0")
         addMenuFormRef.current.classList.toggle("max-h-96")
@@ -159,7 +159,7 @@ export default function PaginatedMenus(props) {
     }
 
     async function saveMenuForUser() {
-        let menuName = addMenuFormRef.current.children[0].value;
+        let menuName = (addMenuFormRef.current.children[0] as HTMLInputElement).value;
         let currency = 'INR';
 
         let payload = {
