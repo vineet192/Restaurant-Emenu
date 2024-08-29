@@ -4,44 +4,44 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
+
+type MenuCard = {
+  name?: string,
+  isPublic?: boolean,
+  currency?: string,
+  categories?: Array<Category>
+}
+
+type Category = {
+  title: string,
+  dishes: Array<Dish>,
+  expanded?: boolean
+}
+
+type Dish = {
+  dishName: string,
+  dishDescription: string,
+  dishPrice: number
+}
+
+
 export default function () {
   const router = useRouter();
   const menuID = router.query.menuID;
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
 
-  const [menuCard, setMenuCard] = useState({});
+  const [menuCard, setMenuCard] = useState<MenuCard>({});
   const { currentUser } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
-  const categoriesPopup = useRef();
+  const categoriesPopup = useRef<HTMLDivElement>();
 
   useEffect(() => {
     console.log(isLoading)
   }, [isLoading])
 
-  useEffect(async () => {
-
-    setIsLoading(true)
-    let res
-
-    try {
-      res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}&isPreview=true`);
-
-      if (!res.ok) {
-        throw new Error("Bad request")
-      }
-    } catch (err) {
-      alert("An unexpected error occured")
-      return
-    }
-
-    let data = await res.json();
-    setIsLoading(false)
-
-    data.menu.categories.map(category => {
-      return { ...category, expanded: false }
-    })
-    setMenuCard((prevState) => data.menu);
+  useEffect(() => {
+    fetchMenu().finally(() => setIsLoading(false))
   }, []);
 
   return (
@@ -60,7 +60,7 @@ export default function () {
           <div
             className="flex flex-col my-10 mx-2"
             key={categoryIndex}
-            id={categoryIndex}
+            id={categoryIndex.toString()}
             onClick={e => toggleExpansion(e, categoryIndex)}>
             <div className="p-2 cursor-pointer border-b border-blue-500 flex justify-between">
               <h1 className="text-4xl text-[color:var(--accent1)] font-extrabold">
@@ -121,6 +121,31 @@ export default function () {
     </div>
   );
 
+  async function fetchMenu() {
+
+    setIsLoading(true)
+
+    try {
+      const res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}&isPreview=true`);
+
+      if (!res.ok) {
+        throw new Error("Bad request")
+      }
+
+      const data = await res.json();
+      setIsLoading(false)
+
+      data.menu.categories.map(category => {
+        return { ...category, expanded: false }
+      })
+      setMenuCard((prevState) => data.menu);
+    } catch (err) {
+      alert("An unexpected error occured")
+      return
+    }
+
+  }
+
   function handleCloseCategories(event) {
     categoriesPopup.current.classList.replace('flex', 'hidden');
   }
@@ -145,6 +170,6 @@ export default function () {
       categoryDiv.click()
     }
 
-    categoryDiv.scrollIntoView(true, { behavior: "smooth" });
+    categoryDiv.scrollIntoView({ behavior: "smooth" });
   }
 }
