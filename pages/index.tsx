@@ -20,7 +20,7 @@ export default function Home() {
   });
 
   return (
-    <div className="h-screen">
+    <div className="h-screen p-5">
       {/* {currentUser && <ProfileCard></ProfileCard>} */}
       {currentUser && <PaginatedMenus></PaginatedMenus>}
       <ToastContainer/>

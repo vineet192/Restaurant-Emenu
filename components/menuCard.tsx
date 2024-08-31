@@ -25,15 +25,16 @@ export default function MenuCard(props) {
 
     return (
         <div ref={cardRef}
-            className="py-2 px-20 my-2 mx-auto flex justify-start w-full 
-            shadow-md items-center rounded-lg  border-2 border-[color:var(--accent1)] relative transition-transform">
+            className="py-2 px-20 flex 
+            shadow-md items-center rounded-lg border-2 border-[color:var(--accent1)] 
+            relative transition-transform">
 
             {/* Options dropdown */}
-            <div className="top-1 right-0 absolute flex p-2">
-                <ul className="scale-y-0 transition-transform self-end border py-1 z-10 bg-white mr-2 rounded-lg" ref={optionsDropDownRef}>
+            <div className="top-1 right-0 absolute flex py-1 px-2">
+                <ul className="scale-y-0 transition-transform z-10 bg-white mr-2 rounded-lg flex flex-col gap-2 p-3" ref={optionsDropDownRef}>
 
                     <Link href={`/menu-config/${props.id}`}>
-                        <li className="transition hover:bg-gray-100 w-full cursor-pointer px-4 pt-1 text-xl my-2">
+                        <li className="transition hover:text-[color:var(--accent1)] w-full cursor-pointer text-xl">
                             <FontAwesomeIcon icon={faEdit} className="mx-2"></FontAwesomeIcon>Edit
                         </li>
                     </Link>
@@ -42,11 +43,11 @@ export default function MenuCard(props) {
                         pathname: '/qr',
                         query: { url: props.url }
                     }}>
-                        <li className="transition hover:bg-gray-100 w-full cursor-pointer px-4 pt-1 text-xl my-2">
+                        <li className="transition hover:text-[color:var(--accent1)] w-full cursor-pointer text-xl">
                             <FontAwesomeIcon icon={faDownload} className="mx-2"></FontAwesomeIcon>QR
                         </li></Link>
 
-                    <li className="transition hover:bg-gray-100 w-full cursor-pointer px-4 pt-1 text-xl my-2"
+                    <li className="transition hover:text-[color:red] w-full cursor-pointer text-xl"
                         onClick={deleteMenu}>
                         <FontAwesomeIcon icon={faTrash} className="mx-2"></FontAwesomeIcon>Delete</li>
                 </ul>

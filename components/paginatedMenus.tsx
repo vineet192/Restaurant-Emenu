@@ -23,9 +23,9 @@ export default function PaginatedMenus() {
 
 
     return (
-        <div className="flex flex-col w-full mx-auto p-2 mt-5">
+        <div className="flex flex-col w-full mx-auto p-2 gap-4">
             {/* Search bar, number of items and filter */}
-            <div className="flex w-full justify-center px-9 py-2">
+            <div className="flex w-full justify-center">
                 <form className="ml-2 mr-5 my-auto py-2 px-4 rounded-full 
                  flex flex-nowrap items-center group 
                 bg-[color:var(--text)] text-[color:var(--accent2)]"
@@ -46,13 +46,13 @@ export default function PaginatedMenus() {
                     ref={addMenuFormRef}
                     onTransitionEnd={clearFormInput}
                     onSubmit={addNewMenu}
-                    className="mx-auto w-fit flex flex-col max-h-0 
-                transition-[max-height] duration-300 overflow-hidden mt-4 bg-transparent rounded-lg">
+                    className="w-fit flex flex-col max-h-0 gap-2 p-2 self-center
+                transition-[max-height] duration-300 overflow-hidden bg-transparent rounded-lg">
                     <input
                         required
                         placeholder="Restaurant name"
-                        className="mx-10 text-3xl font-bold bg-transparent 
-                border-b border-white text-[color:var(--text)] m-5 text-center"></input>
+                        className="text-3xl font-bold bg-transparent 
+                border-b border-white text-[color:var(--text)] text-center"></input>
                     <div className="w-full flex justify-center">
                         <button
                             className="border text-[color:var(--text)] font-bold 
@@ -78,23 +78,24 @@ export default function PaginatedMenus() {
                 <button
                     ref={addMenuFormBtn}
                     onClick={toggleNewMenuForm}
-                    className="border bg-[color:var(--text)] text-[color:var(--accent2)] font-bold 
-                hover:scale-110 transition-transform mx-auto my-2 p-2 w-fit rounded-md">
-                    <FontAwesomeIcon icon={faPlus} className="mx-2"></FontAwesomeIcon>
+                    className="bg-[color:var(--text)] text-[color:var(--accent2)] font-bold 
+                hover:scale-110 transition-transform self-center p-2 rounded-md flex items-center 
+                gap-2">
+                    <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
                     Add Restaurant
                 </button>
             }
 
             {/* Menus Loading spinner */}
             {isMenusLoading &&
-                <div className=" mx-auto p-2 rounded-lg bg-[color:var(--text)] 
+                <div className=" self-center p-2 rounded-lg bg-[color:var(--text)] 
                 text-[color:var(--accent2)] font-bold animate-pulse">
                     Your menus are loading...
                 </div>
             }
 
             {/* List of menus */}
-            <div className="mx-auto w-4/5 flex flex-col p-2">
+            <div className=" self-center w-4/5 flex flex-col gap-5">
                 {eMenus.map((menu, index) =>
                     <MenuCard
                         url={`${HOST_URL}/menu/${menu._id}`}
