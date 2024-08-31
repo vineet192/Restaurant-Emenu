@@ -1,6 +1,7 @@
 import { faAngleDown, faAngleUp, faBackspace } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useState, useRef } from 'react';
 
 
@@ -26,33 +27,37 @@ type Dish = {
 async function fetchMenu(menuID: string): Promise<MenuCard> {
 
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
-  try {
-    const res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}&isPreview=true`);
 
-    if (!res.ok) {
-      throw new Error("Bad request")
-    }
+  const res = await fetch(`${SERVER_URL}/menu?menuID=${menuID}&isPreview=true`);
 
-    const data = await res.json();
-
-    data.menu.categories.map(category => {
-      return { ...category, expanded: false }
-    })
-
-    return data.menu
-
-  } catch (err) {
-    return null
+  if (!res.ok) {
+    throw new Error("Bad request")
   }
+
+  const data = await res.json();
+
+  data.menu.categories.map((category: Category): Category => {
+    return { ...category, expanded: false }
+  })
+
+  return data.menu
 
 }
 
 export async function getServerSideProps({ params }) {
 
-  const menuCardProp = await fetchMenu(params.menuID)
+  try {
+    const menuCardProp = await fetchMenu(params.menuID)
 
-  return {
-    props: { menuCardProp },
+    return {
+      props: { menuCardProp },
+    }
+  } catch {
+    (err: Error) => {
+      return {
+        props: { menuCardProp: null },
+      }
+    }
   }
 }
 
@@ -61,6 +66,13 @@ export default function ({ menuCardProp }) {
 
   const [menuCard, setMenuCard] = useState<MenuCard>(menuCardProp);
   const categoriesPopup = useRef<HTMLDivElement>();
+  const router = useRouter()
+
+  if (!menuCardProp) {
+    router.push("/")
+    alert("We're having trouble finding this menu!")
+    return null
+  }
 
   return (
 
