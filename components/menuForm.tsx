@@ -90,46 +90,38 @@ export default function MenuForm({ menuID }: MenuFormProps) {
 
 
           <div className="p-2 my-2 flex-col items-center w-full">
-            {currentTabId != -1 ? (
-              <>
-                <h1 className=" text-4xl text-[color:var(--accent1)] font-extrabold p-2 w-full">
-                  {currentTabId > -1 ? categories[currentTabId].title : ''}
-                </h1>
-                <hr className="text-[color:var(--accent1)]"></hr>
+            {currentTabId != -1 ? <>
+              <h1 className=" text-4xl text-[color:var(--accent1)] font-extrabold p-2 w-full">
+                {currentTabId > -1 ? categories[currentTabId].title : ''}
+              </h1>
+              <hr className="text-[color:var(--accent1)]"></hr>
 
-                <div className='flex w-full items-center justify-center'>
-                  <AddDishButton
-                    onClick={(event) => {
-                      handleAddDish({
-                        dishName: '',
-                        dishDescription: '',
-                        dishPrice: '0.0',
-                      });
-                    }}></AddDishButton>
-                </div>
+              <div className='flex w-full items-center justify-center'>
+                <AddDishButton
+                  onClick={(event) => {
+                    handleAddDish({
+                      dishName: '',
+                      dishDescription: '',
+                      dishPrice: '0.0',
+                    });
+                  }}></AddDishButton>
+              </div>
 
-                {/* List of Dishes. User can add dish name and description. */}
-                {currentTabId > -1 ? (
-                  <div className="flex flex-col justify-center mr-20">
-                    {categories[currentTabId].dishes.map((dish, index) =>
-                      <DishCard
-                        key={index}
-                        {...dish}
-                        onRemove={(event) => handleRemoveDishClick(event, index)}
-                        onDishNameChange={(event) => handleDishNameChange(event, index)}
-                        onDishDescriptionChange={(event) => handleDishDescriptionChange(event, index)}
-                        onPriceChange={(event) => handlePriceChange(event, index)}
-                        onImageChange={(event) => handleDishImageChange(event, index)}>
-                      </DishCard>)}
-                  </div>
-
-                ) : (
-                  ''
-                )}
-              </>
-            ) : (
-              ''
-            )}
+              {/* List of Dishes. User can add dish name and description. */}
+              {currentTabId > -1 ? <div className="flex flex-col justify-center mr-20">
+                {categories[currentTabId].dishes.map((dish, index) => <DishCard
+                  key={index}
+                  dishName={dish.dishName}
+                  dishPrice={dish.dishPrice}
+                  dishDescription={dish.dishDescription}
+                  onRemove={(event) => handleRemoveDishClick(event, index)}
+                  onDishNameChange={(event) => handleDishNameChange(event, index)}
+                  onDishDescriptionChange={(event) => handleDishDescriptionChange(event, index)}
+                  onPriceChange={(event) => handlePriceChange(event, index)}
+                  onImageChange={(event) => handleDishImageChange(event, index)}>
+                </DishCard>)}
+              </div> : null}
+            </> : null}
           </div>
         </div>
 

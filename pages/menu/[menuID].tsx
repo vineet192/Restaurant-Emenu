@@ -62,7 +62,7 @@ export async function getServerSideProps({ params }) {
 }
 
 
-export default function ({ menuCardProp }) {
+export default function Menu({ menuCardProp }) {
 
   const [menuCard, setMenuCard] = useState<MenuCard>(menuCardProp);
   const categoriesPopup = useRef<HTMLDivElement>();
@@ -80,8 +80,8 @@ export default function ({ menuCardProp }) {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content={`${menuCard.name} menu`}></meta>
-        <title>{menuCard.name}</title>
+        <meta name="description" content={`${menuCard?.name} menu`}></meta>
+        <title>{menuCard?.name}</title>
       </Head>
 
       <div className="w-full px-10 py-5 gap-10 flex flex-col">
@@ -96,7 +96,7 @@ export default function ({ menuCardProp }) {
           before:bg-[color:var(--accent1)] before:top-1/2
           before:left-0 before:block before:-z-10">
           <span className='text-4xl lg:text-6xl z-10 bg-[color:var(--background)] px-5'>
-            {menuCard.name}
+            {menuCard?.name}
           </span></h1>
         {menuCard.categories && menuCard.categories.map((category, categoryIndex) => (
           <div

@@ -11,7 +11,6 @@ type DishCardProps = {
   dishName: string,
   dishPrice: string,
   dishDescription: string,
-
 }
 
 export default function DishCard(props: DishCardProps) {
