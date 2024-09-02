@@ -1,17 +1,16 @@
-import { faEdit, faPlus, faSave } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormEvent, useEffect, useRef, useState, MouseEvent } from 'react';
-import AddCategoryButton from './buttons/addCategoryButton';
-import AddDishButton from './buttons/addDishButton';
-import RemoveCategoryButton from './buttons/removeCategoryButton';
-import DishCard from './dishCard';
+import { faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
+import { FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../contexts/AuthContext';
 import { errorToast, successToast } from '../static/toastConfig';
-import { useRouter } from 'next/router';
+import AddDishButton from './buttons/addDishButton';
+import { EditMenuNameToggle } from './buttons/EditMenuNameToggle';
 import PreviewButton from './buttons/previewButton';
-import CategoryNameInput from './input/categoryNameInput';
+import { SaveChangesButton } from './buttons/saveChangesButton';
+import { CategoriesConfigList } from './CategoriesConfigList';
+import DishCard from './dishCard';
 
 type Category = {
   [categoryId: string]: {
@@ -30,7 +29,7 @@ type MenuFormProps = {
   menuID: string
 }
 
-export default function MenuForm({menuID}: MenuFormProps) {
+export default function MenuForm({ menuID }: MenuFormProps) {
   const [categories, setCategories] = useState<Category>({}); //structure shown above.
   const [numCategories, setNumCategories] = useState(0);
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
@@ -39,7 +38,6 @@ export default function MenuForm({menuID}: MenuFormProps) {
   const imageFormDataRef = useRef(new FormData()) //These images will be POSTed after the text payload
   const { currentUser } = useAuth();
   const formRef = useRef<HTMLFormElement>();
-  const categoriesDiv = useRef<HTMLDivElement>();
   const saveFormButtonRef = useRef<HTMLButtonElement>();
   const editMenuNameFieldRef = useRef<HTMLInputElement>();
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
@@ -76,112 +74,67 @@ export default function MenuForm({menuID}: MenuFormProps) {
                 event.currentTarget.disabled = true;
               }}
               onChange={handleMenuNameChange}></input>
-            <button onClick={toggleMenuNameEdit}>
-              <FontAwesomeIcon
-                icon={faEdit}
-                size="2x"
-                className="text-[color:var(--text)]"
-              />
-            </button>
+            <EditMenuNameToggle toggleMenuNameEdit={toggleMenuNameEdit} faEdit={faEdit} />
           </div>
         </div>
 
         <div className='flex lg:flex-nowrap sm:flex-wrap flex-wrap flex-shrink w-full'>
-          <div className="flex p-10 align-center flex-col rounded-xl ml-5 mb-5 mr-10 lg:w-2/5 sm:w-full max-h-[500px] overflow-y-auto">
-            <div className="flex justify-center">
-              <AddCategoryButton
-                icon={faPlus}
-                onClick={() => {
-                  addCategory((numCategories + 1).toString());
-                  setNumCategories(numCategories + 1);
-                }}></AddCategoryButton>
-            </div>
+          <CategoriesConfigList
+            addCategory={addCategory}
+            setNumCategories={setNumCategories}
+            numCategories={numCategories}
+            handleCategoryNameChange={handleCategoryNameChange}
+            handleCategorySelect={handleCategorySelect}
+            handleRemoveCategoryClick={handleRemoveCategoryClick}
+            categories={categories} />
 
-            <div className="flex flex-nowrap justify-center align-center p-2 overflow-x-hidden">
-              <div className="flex flex-row overflow-auto lg:flex-col sm:flex-row" ref={categoriesDiv}>
-                {/* List of categories as a horizontally scrollable list */}
-                {Object.keys(categories).map((key) => {
-                  return (
-                    <div className="p-2 m-2 flex" key={key} id={key}>
-                      <CategoryNameInput
-                        onChange={handleCategoryNameChange}
-                        onFocus={handleCategorySelect}
-                        value={categories[key].title}></CategoryNameInput>
-                      <RemoveCategoryButton
-                        _id={key}
-                        onClick={handleRemoveCategoryClick}></RemoveCategoryButton>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
 
-          {currentTabId != -1 ? (
-            <div className="p-2 my-2 flex-col items-center w-full">
-              <h1 className=" text-4xl text-[color:var(--accent1)] font-extrabold p-2 w-full">
-                {currentTabId > -1 ? categories[currentTabId].title : ''}
-              </h1>
-              <hr className="text-[color:var(--accent1)]"></hr>
+          <div className="p-2 my-2 flex-col items-center w-full">
+            {currentTabId != -1 ? (
+              <>
+                <h1 className=" text-4xl text-[color:var(--accent1)] font-extrabold p-2 w-full">
+                  {currentTabId > -1 ? categories[currentTabId].title : ''}
+                </h1>
+                <hr className="text-[color:var(--accent1)]"></hr>
 
-              <div className='flex w-full items-center justify-center'>
-                <AddDishButton
-                  onClick={(event) => {
-                    handleAddDish({
-                      dishName: '',
-                      dishDescription: '',
-                      dishPrice: '0.0',
-                    });
-                  }}></AddDishButton>
-              </div>
-
-              {/* List of Dishes. User can add dish name and description. */}
-              {currentTabId > -1 ? (
-                <div className="flex flex-col justify-center mr-20">
-                  {categories[currentTabId].dishes.map((dish, index) => {
-                    return (
-                      <DishCard
-                        key={index}
-                        onRemove={(event) => handleRemoveDishClick(event, index)}
-                        dishName={categories[currentTabId].dishes[index].dishName}
-                        onDishNameChange={(event) =>
-                          handleDishNameChange(event, index)
-                        }
-                        dishDescription={
-                          categories[currentTabId].dishes[index].dishDescription
-                        }
-                        onDishDescriptionChange={(event) =>
-                          handleDishDescriptionChange(event, index)
-                        }
-                        onPriceChange={(event) => handlePriceChange(event, index)}
-                        dishPrice={
-                          categories[currentTabId].dishes[index].dishPrice
-                        }
-                        onImageChange={(event) => handleDishImageChange(event, index)}></DishCard>
-                    );
-                  })}
+                <div className='flex w-full items-center justify-center'>
+                  <AddDishButton
+                    onClick={(event) => {
+                      handleAddDish({
+                        dishName: '',
+                        dishDescription: '',
+                        dishPrice: '0.0',
+                      });
+                    }}></AddDishButton>
                 </div>
 
-              ) : (
-                ''
-              )}
-            </div>
-          ) : (
-            ''
-          )}</div>
+                {/* List of Dishes. User can add dish name and description. */}
+                {currentTabId > -1 ? (
+                  <div className="flex flex-col justify-center mr-20">
+                    {categories[currentTabId].dishes.map((dish, index) =>
+                      <DishCard
+                        key={index}
+                        {...dish}
+                        onRemove={(event) => handleRemoveDishClick(event, index)}
+                        onDishNameChange={(event) => handleDishNameChange(event, index)}
+                        onDishDescriptionChange={(event) => handleDishDescriptionChange(event, index)}
+                        onPriceChange={(event) => handlePriceChange(event, index)}
+                        onImageChange={(event) => handleDishImageChange(event, index)}>
+                      </DishCard>)}
+                  </div>
+
+                ) : (
+                  ''
+                )}
+              </>
+            ) : (
+              ''
+            )}
+          </div>
+        </div>
 
         <div className="px-3 fixed bottom-0 right-0 flex justify-end align-center">
-          <button
-            ref={saveFormButtonRef}
-
-            className="flex p-2 m-3 justify-center items-center border-2 
-          bg-white text-[color:var(--accent2)] hover:scale-110 
-          transition"
-
-            onClick={handleFormSave}>
-            <h1 className="mx-2 text-2xl font-bold">Save Changes</h1>
-            <FontAwesomeIcon icon={faSave} size="2x"></FontAwesomeIcon>
-          </button>
+          <SaveChangesButton saveFormButtonRef={saveFormButtonRef} handleFormSave={handleFormSave} faSave={faSave} />
           <PreviewButton preview_url={HOST_URL + '/menu/' + menuID}></PreviewButton>
         </div>
         <ToastContainer />
