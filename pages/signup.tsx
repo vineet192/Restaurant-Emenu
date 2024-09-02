@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
 import { errorToast } from '../static/toastConfig';
 import { ToastContainer } from 'react-toastify';
+import Link from 'next/link';
 
 export default function Signup() {
   const emailRef = useRef<HTMLInputElement>();
@@ -70,9 +71,11 @@ export default function Signup() {
 
           <span className="self-center m-2">
             Already have an account?{' '}
-            <a href="/login" className="underline text-blue-500">
-              Login
-            </a>
+            <Link href="/login">
+              <a className="underline text-blue-500">
+                Login
+              </a>
+            </Link>
           </span>
         </div>
       </form>

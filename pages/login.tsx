@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
-import {useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { errorToast } from '../static/toastConfig';
 import { ToastContainer } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 export default function Login() {
   const emailRef = useRef<HTMLInputElement>();
@@ -70,14 +71,15 @@ export default function Login() {
             Logging in
           </button>}
 
-          <a href='/passwordReset' className='text-sm text-blue-500 underline mx-auto'>Forgot password?</a>
-
+          <Link href='/passwordReset'>
+            <a className='text-sm text-blue-500 underline mx-auto'>Forgot password?</a>
+          </Link>
 
           <span className="self-center m-2">
-            Don't have an account?{' '}
-            <a href="/signup" className="underline text-blue-500">
-              Signup
-            </a>
+            Don't have an account?{" "}
+            <Link href="/signup" className="underline text-blue-500">
+              <a className="underline text-blue-500">Signup</a>
+            </Link>
           </span>
         </div>
       </form>
@@ -86,7 +88,7 @@ export default function Login() {
   );
 
 
-  async function guestLogin(event: any){
+  async function guestLogin(event: any) {
     try {
       setIsLoading(true)
       await anonymousLogin()

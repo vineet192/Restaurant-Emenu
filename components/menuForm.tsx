@@ -118,8 +118,7 @@ export default function MenuForm({ menuID }: MenuFormProps) {
                   onDishNameChange={(event) => handleDishNameChange(event, index)}
                   onDishDescriptionChange={(event) => handleDishDescriptionChange(event, index)}
                   onPriceChange={(event) => handlePriceChange(event, index)}
-                  onImageChange={(event) => handleDishImageChange(event, index)}>
-                </DishCard>)}
+                  onImageChange={(event) => handleDishImageChange(event, index)}/>)}
               </div> : null}
             </> : null}
           </div>
