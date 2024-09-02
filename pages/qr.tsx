@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react";
 import QRCode from "react-qr-code";
 
-export default function qr() {
+export default function QR() {
 
     const router = useRouter();
     const HOST_URL = process.env.NEXT_PUBLIC_HOSTNAME

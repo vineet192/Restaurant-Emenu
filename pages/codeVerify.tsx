@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { useRouter } from "next/router"
 
-export default function codeVerify() {
+export default function CodeVerify() {
 
     const { currentUser } = useAuth()
     const router = useRouter()

@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { errorToast } from '../static/toastConfig';
 import { ToastContainer } from 'react-toastify';
 
-export default function signup() {
+export default function Signup() {
   const emailRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
   const firstNameRef = useRef<HTMLInputElement>()

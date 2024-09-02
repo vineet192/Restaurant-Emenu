@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useAuth } from '../contexts/AuthContext';
 
-export default function about() {
+export default function About() {
 
     const { currentUser } = useAuth();
     const router = useRouter()
