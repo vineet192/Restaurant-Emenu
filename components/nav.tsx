@@ -29,9 +29,9 @@ export default function NavBar() {
     <nav className="relative w-full top-0 z-50 text-[color:var(--text)] bg-[color:var(--nav)] py-5 shadow-md">
       {/* Standard Desktop Nav */}
       <div className="hidden p-5 justify-between items-center md:flex">
-        <a href="/" className="text-3xl font-extrabold">
-          E-MENU
-        </a>
+        <Link href="/">
+          <span className="text-3xl font-extrabold cursor-pointer">E-MENU</span>
+        </Link>
         <ul className="flex justify-between items-center">
           <li className='mx-2 cursor-pointer transition text-xl hover:scale-110'>
             <Link href="/account">
@@ -53,7 +53,9 @@ export default function NavBar() {
 
       {/* Mobile Nav */}
       <div className="md:hidden flex justify-between items-center p-5">
-        <h1 className="text-3xl font-extrabold">E-MENU</h1>
+        <Link href="/">
+          <span className="text-3xl font-extrabold cursor-pointer">E-MENU</span>
+        </Link>
         <button onClick={toggleDropdown}>
           <FontAwesomeIcon icon={faBars} size="2x"></FontAwesomeIcon>
         </button>
