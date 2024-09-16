@@ -1,3 +1,4 @@
+import { CategoriesPreview } from './../../components/CategoriesPreview';
 import { faAngleDown, faAngleUp, faBackspace } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
@@ -131,27 +132,11 @@ export default function Menu({ menuCardProp }) {
         ))}
       </div>
 
-      <div
-        className="hidden z-10 flex-col items-center bg-[color:var(--background2)] rounded-lg text-[color:var(--accent2)] fixed bottom-0 right-0 p-2 m-5"
-        ref={categoriesPopup}>
-        <h2 className="text-2xl font-extrabold">Categories</h2>
-        <ul className="my-5">
-          {menuCard.categories && menuCard.categories.map((category, index) => (
-            <li key={index} className="my-2">
-              <h2
-                className="text-2xl cursor-pointer"
-                onClick={() => { scrollToCategoryAndOpen(index) }}>
-                {category.title}
-              </h2>
-            </li>
-          ))}
-        </ul>
-        <button
-          className="absolute bottom-0 right-0 p-1"
-          onClick={handleCloseCategories}>
-          <FontAwesomeIcon icon={faBackspace}></FontAwesomeIcon>
-        </button>
-      </div>
+      <CategoriesPreview
+        categoriesPopup={categoriesPopup}
+        categories={menuCard.categories}
+        scrollToCategoryAndOpen={scrollToCategoryAndOpen}
+        handleCloseCategories={handleCloseCategories} />
 
       <button
         className="fixed z-5 bottom-0 right-0 m-5 p-2 
