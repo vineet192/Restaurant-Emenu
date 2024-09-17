@@ -1,6 +1,6 @@
 import { faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
-import { FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { AnimationEvent, FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../contexts/AuthContext';
@@ -22,7 +22,8 @@ type Category = {
 type Dish = {
   dishName: string,
   dishDescription: string,
-  dishPrice: string
+  dishPrice: string,
+  _id: string
 }
 
 type MenuFormProps = {
@@ -34,7 +35,7 @@ export default function MenuForm({ menuID }: MenuFormProps) {
   const [numCategories, setNumCategories] = useState(0);
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
   const [menuName, setMenuName] = useState('');
-  const [isMenuLoading, setIsMenuLoading] = useState(false)
+  const [isMenuLoading, setIsMenuLoading] = useState(true)
   const imageFormDataRef = useRef(new FormData()) //These images will be POSTed after the text payload
   const { currentUser } = useAuth();
   const formRef = useRef<HTMLFormElement>();
@@ -45,7 +46,6 @@ export default function MenuForm({ menuID }: MenuFormProps) {
   const router = useRouter()
 
   useEffect(() => {
-    setIsMenuLoading(true)
     fetchMenu().finally(() => setIsMenuLoading(false))
   }, []);
 
@@ -114,7 +114,7 @@ export default function MenuForm({ menuID }: MenuFormProps) {
                   dishName={dish.dishName}
                   dishPrice={dish.dishPrice}
                   dishDescription={dish.dishDescription}
-                  onRemove={(event) => handleRemoveDishClick(event, index)}
+                  onRemove={() => handleRemoveDish(index)}
                   onDishNameChange={(event) => handleDishNameChange(event, index)}
                   onDishDescriptionChange={(event) => handleDishDescriptionChange(event, index)}
                   onPriceChange={(event) => handlePriceChange(event, index)}
@@ -200,7 +200,7 @@ export default function MenuForm({ menuID }: MenuFormProps) {
     setCategories(newCategories);
   }
 
-  function handleRemoveDishClick(event: MouseEvent, index: number) {
+  function handleRemoveDish(index: number) {
     let newCategories = { ...categories };
     newCategories[currentTabId].dishes.splice(index, 1);
     setCategories(newCategories);
