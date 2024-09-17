@@ -202,7 +202,7 @@ export default function MenuForm({ menuID }: MenuFormProps) {
 
   function handleRemoveDish(index: number) {
     let newCategories = { ...categories };
-    newCategories[currentTabId].dishes.splice(index, 1);
+    delete newCategories[currentTabId].dishes[index];
     setCategories(newCategories);
   }
 
