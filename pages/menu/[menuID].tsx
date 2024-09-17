@@ -87,8 +87,8 @@ export default function Menu({ menuCardProp }) {
 
       <div className="w-full px-10 py-5 gap-10 flex flex-col">
 
-        <h1 className="z-10 block
-          text-center text-[color:var(--text)] relative
+        <div className="z-10
+          text-center text-[color:var(--text)] relative flex justify-center
           after:absolute after:h-0.5
           after:w-[40%] after:rounded-full after:bg-[color:var(--accent1)]
           after:top-1/2 after:right-0 after:block after:-z-10
@@ -96,9 +96,9 @@ export default function Menu({ menuCardProp }) {
           before:absolute before:h-0.5 before:w-[40%] before:rounded-full
           before:bg-[color:var(--accent1)] before:top-1/2
           before:left-0 before:block before:-z-10">
-          <span className='text-4xl lg:text-6xl z-10 bg-[color:var(--background)] px-5'>
+          <h1 className='text-2xl lg:text-6xl max-w-[70%] bg-[color:var(--background)] px-2 break-words'>
             {menuCard?.name}
-          </span></h1>
+          </h1></div>
         {menuCard.categories && menuCard.categories.map((category, categoryIndex) => (
           <div
             className="flex flex-col"
