@@ -23,13 +23,12 @@ export default function Signup() {
   }, [currentUser])
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <form onSubmit={onSubmit}>
-        <div className="flex flex-col shadow-lg p-2 bg-[color:var(--background2)] rounded-md">
-          <h1 className="self-center m-2 font-extrabold text-3xl mb-16 text-[color:var(--accent2)]">
+    <div className="h-screen flex items-center justify-center p-8">
+      <form onSubmit={onSubmit} className="flex flex-col shadow-lg p-2 bg-[color:var(--background2)] rounded-md">
+          <h1 className="self-center font-extrabold text-3xl pb-16 text-[color:var(--accent2)]">
             SIGN UP
           </h1>
-          <div className='flex'>
+          <div className='flex flex-wrap'>
             <input
               className="m-4 p-1 outline-none bg-transparent focus:border-[color:var(--accent2)] transition border-b"
               placeholder="First name"
@@ -77,7 +76,6 @@ export default function Signup() {
               </a>
             </Link>
           </span>
-        </div>
       </form>
       <ToastContainer />
     </div>
