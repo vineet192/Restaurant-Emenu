@@ -18,7 +18,15 @@ import { auth } from '../static/firebase';
 const AuthContext = React.createContext(null);
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER;
 
-export function useAuth() {
+export function useAuth(): {
+  currentUser: User,
+  login,
+  signup,
+  logout,
+  deleteAccount,
+  resetPassword,
+  anonymousLogin
+} {
   return useContext(AuthContext);
 }
 export function AuthProvider({ children }) {
@@ -50,7 +58,7 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  function anonymousLogin(){
+  function anonymousLogin() {
     return signInAnonymously(auth).then(async (cred) => {
       await initializeUser(cred.user.uid);
     })

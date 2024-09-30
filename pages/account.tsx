@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { errorToast } from "../static/toastConfig"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import React from "react"
 
 export default function Account(props) {
 
@@ -71,19 +72,23 @@ export default function Account(props) {
     return (
         <div className="h-full flex-auto flex justify-center items-center">
 
-            <div className="mt-3.5 p-5 shadow-lg flex flex-col items-center bg-[color:var(--background2)] rounded-md">
-                <h1 className="text-4xl text-[color:var(--accent2)] font-extrabold my-10">
+            <div className="mt-3.5 p-5 shadow-lg flex flex-col gap-4 items-center bg-[color:var(--background2)] rounded-md">
+                <h1 className="text-4xl text-[color:var(--accent2)] font-extrabold py-4">
                     Account
                 </h1>
 
-                <div className="flex flex-nowrap items-center my-2 w-full pr-2 border ">
-                    <label htmlFor="name" className="mr-10 bg-gray-200 p-3 ">Name</label>
-                    <p id="name" className="ml-auto">{currentUser.displayName}</p>
+                <div className="flex items-center w-full border gap-2">
+                    <label htmlFor="name" className="bg-gray-200 p-3 ">Name</label>
+                    <p id="name">
+                        {currentUser.isAnonymous ? "Anonymous" : currentUser.displayName}
+                    </p>
                 </div>
 
-                <div className="flex flex-nowrap items-center my-2 border pr-2">
-                    <label htmlFor="email" className="mr-10 bg-gray-200 p-3 ">Email</label>
-                    <p id="email" className="ml-auto">{currentUser.email}</p>
+                <div className="flex items-center border w-full gap-2">
+                    <label htmlFor="email" className="bg-gray-200 p-3">Email</label>
+                    <p id="email">
+                        {currentUser.isAnonymous ? "Anonymous" : currentUser.email}
+                    </p>
                 </div>
 
                 <form ref={credentialsViewRef} className="flex flex-col h-0 overflow-hidden transtion-[height] duration-200" onSubmit={event => event.preventDefault()}>
