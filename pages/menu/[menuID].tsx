@@ -3,27 +3,9 @@ import { faAngleDown, faAngleUp, faBackspace } from '@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import React from 'react';
 import { useState, useRef } from 'react';
-
-
-type MenuCard = {
-  name?: string,
-  isPublic?: boolean,
-  currency?: string,
-  categories?: Array<Category>
-}
-
-type Category = {
-  title: string,
-  dishes: Array<Dish>,
-  expanded?: boolean
-}
-
-type Dish = {
-  dishName: string,
-  dishDescription: string,
-  dishPrice: number
-}
+import { MenuCard, CategoryPreview } from '../../types/types';
 
 async function fetchMenu(menuID: string): Promise<MenuCard> {
 
@@ -37,7 +19,7 @@ async function fetchMenu(menuID: string): Promise<MenuCard> {
 
   const data = await res.json();
 
-  data.menu.categories.map((category: Category): Category => {
+  data.menu.categories.map((category: CategoryPreview): CategoryPreview => {
     return { ...category, expanded: false }
   })
 
@@ -45,20 +27,28 @@ async function fetchMenu(menuID: string): Promise<MenuCard> {
 
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ params, query }) {
+
+  if (query && query.hasOwnProperty("preview")) {
+
+    try {
+      const menuCardProp: MenuCard = JSON.parse(Buffer.from(query.preview, 'base64').toString())
+
+      return {
+        props: { menuCardProp }
+      }
+    } catch (err: any) {
+      return { menuCardProp: null }
+    }
+  }
+
 
   try {
     const menuCardProp = await fetchMenu(params.menuID)
+    return { props: { menuCardProp }, }
 
-    return {
-      props: { menuCardProp },
-    }
-  } catch {
-    (err: Error) => {
-      return {
-        props: { menuCardProp: null },
-      }
-    }
+  } catch (err: any) {
+    return { props: { menuCardProp: null }, }
   }
 }
 

@@ -11,27 +11,11 @@ import PreviewButton from './buttons/previewButton';
 import { SaveChangesButton } from './buttons/saveChangesButton';
 import { CategoriesConfigList } from './CategoriesConfigList';
 import DishCard from './dishCard';
-
-type Category = {
-  [categoryId: string]: {
-    title: string,
-    dishes: Array<Dish>
-  }
-}
-
-type Dish = {
-  dishName: string,
-  dishDescription: string,
-  dishPrice: string,
-  _id: string
-}
-
-type MenuFormProps = {
-  menuID: string
-}
+import { CategoryPreview, CategoryConfig, Dish, MenuCard, MenuFormProps } from '../types/types';
+import React from 'react';
 
 export default function MenuForm({ menuID }: MenuFormProps) {
-  const [categories, setCategories] = useState<Category>({}); //structure shown above.
+  const [categories, setCategories] = useState<CategoryConfig>({}); //structure shown above.
   const [numCategories, setNumCategories] = useState(0);
   const [currentTabId, setCurrentTabId] = useState(-1); //Current category of dish selected by user (in focus)
   const [menuName, setMenuName] = useState('');
@@ -126,7 +110,7 @@ export default function MenuForm({ menuID }: MenuFormProps) {
 
         <div className="px-3 fixed bottom-0 right-0 flex justify-end align-center">
           <SaveChangesButton saveFormButtonRef={saveFormButtonRef} handleFormSave={handleFormSave} faSave={faSave} />
-          <PreviewButton preview_url={HOST_URL + '/menu/' + menuID}></PreviewButton>
+          <PreviewButton onClick = {previewMenuCard} preview_url={HOST_URL + '/menu/' + menuID}></PreviewButton>
         </div>
         <ToastContainer />
       </form>
@@ -262,6 +246,17 @@ export default function MenuForm({ menuID }: MenuFormProps) {
   function toggleMenuNameEdit(event) {
     editMenuNameFieldRef.current.disabled = false;
     editMenuNameFieldRef.current.focus();
+  }
+
+  function previewMenuCard(){
+    const menuCard: MenuCard = {}
+
+    menuCard.categories = Object.values(categories) as CategoryPreview[]
+    menuCard.name = menuName
+    
+    const menuCardEncoded = window.btoa(JSON.stringify(menuCard))
+
+    router.push(`/menu/preview?preview=${menuCardEncoded}`)
   }
 
   async function handleFormSave(event: FormEvent) {
